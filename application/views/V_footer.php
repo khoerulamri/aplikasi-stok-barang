@@ -291,6 +291,70 @@
             "scrollX": true,
         });
 
+
+         table = $('#dataBarangGudang').DataTable({ 
+ 
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+            "lengthMenu": [[ 5, 20, 50, 100, -1 ],[ '5 baris', '20 baris', '50 baris', '100 baris', 'Tampilkan Semua' ]],
+            "ajax": {
+                "url": "<?php echo base_url('gudang/get_data_gudang')?>",
+                "type": "POST"
+            },
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            { 
+                "targets": [ 1 ], 
+                "orderable": false, 
+            }
+            ],
+            "dom": 'lBfrtip',
+            "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
+            {
+                text: 'Tambah Data Gudang',
+                action: function ( e, dt, node, config ) {
+                     window.location = '<?php echo base_url('gudang/tambah');?>';
+                }
+            }],
+            "scrollX": true,
+        });
+
+
+         table = $('#dataPenjualanBarang').DataTable({ 
+ 
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+            "lengthMenu": [[ 5, 20, 50, 100, -1 ],[ '5 baris', '20 baris', '50 baris', '100 baris', 'Tampilkan Semua' ]],
+            "ajax": {
+                "url": "<?php echo base_url('penjualan/get_data_penjualan')?>",
+                "type": "POST"
+            },
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            { 
+                "targets": [ 1 ], 
+                "orderable": false, 
+            }
+            ],
+            "dom": 'lBfrtip',
+            "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
+            {
+                text: 'Tambah Data Produksi',
+                action: function ( e, dt, node, config ) {
+                     window.location = '<?php echo base_url('penjualan/tambah');?>';
+                }
+            }],
+            "scrollX": true,
+        });
+
        
     });
  
@@ -321,7 +385,59 @@
      });
    });
    </script>
-   
+
+<script type="text/javascript">
+   $(document).ready(function(){
+
+      $("#pelipat").select2({
+         ajax: { 
+           url: '<?php echo base_url('gudang/get_data_pelipat_select')?>',
+           type: "post",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+              return {
+                searchTerm: params.term // search term
+              };
+           },
+           
+           processResults: function (response) {
+              return {
+                 results: response
+              };
+           },
+           cache: true
+         }
+     });
+   });
+   </script>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+
+      $("#produksi").select2({
+         ajax: { 
+           url: '<?php echo base_url('gudang/get_data_produksi_select')?>',
+           type: "post",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+              return {
+                searchTerm: params.term // search term
+              };
+           },
+           
+           processResults: function (response) {
+              return {
+                 results: response
+              };
+           },
+           cache: true
+         }
+     });
+   });
+   </script>
+
 <script type="text/javascript">
    $(document).ready(function(){
 
