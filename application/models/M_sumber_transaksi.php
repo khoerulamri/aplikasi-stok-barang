@@ -29,7 +29,7 @@ class M_sumber_transaksi extends CI_Model {
 
    	public function saveSumberTransaksi($kode,$nama)
         {
-                $sql = "insert into sumber_transaksi values ('$kode','$nama')";
+                $sql = "insert into sumber_transaksi (nama_sumber_transaksi) values ('$nama')";
 				
 				$query = $this->db->query($sql);
 		}

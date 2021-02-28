@@ -204,7 +204,6 @@ class C_sumber_transaksi extends CI_Controller {
             $row[] = '<a href="'.base_url('sumber_transaksi/ubah/').urlencode($field->kode_sumber_transaksi).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('sumber_transaksi/hapus/').urlencode($field->kode_sumber_transaksi).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
-            $row[] = $field->kode_sumber_transaksi;
             $row[] = $field->nama_sumber_transaksi;
             $data[] = $row;
         }

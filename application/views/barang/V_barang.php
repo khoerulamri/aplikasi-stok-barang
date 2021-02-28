@@ -16,14 +16,15 @@
                             $nama_barang=$c->nama_barang;
                         }
                         echo base_url('barang/simpanubah/'.urlencode($kode_barang)); };?>" method="post">
+                        <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
-                            <label>Kode Barang</label>
-                            <input class="form-control" placeholder="Masukan kode barang" name="kode_barang"
+                            <label>Kode Barang *</label>
+                            <input required class="form-control" placeholder="Masukan kode barang" name="kode_barang"
                             <?php if($status=='ubah'){echo "value=\"".$kode_barang."\"" ;} ?>>
                         </div>
                         <div class="form-group">
-                            <label>Nama Barang</label>
-                            <input class="form-control" placeholder="Masukan nama barang" name="nama_barang"
+                            <label>Nama Barang *</label>
+                            <input required class="form-control" placeholder="Masukan nama barang" name="nama_barang"
                             <?php if($status=='ubah'){echo "value=\"".$nama_barang."\"" ;} ?>>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('barang');?>" class="btn btn-info pull-right">Kembali</a></div>

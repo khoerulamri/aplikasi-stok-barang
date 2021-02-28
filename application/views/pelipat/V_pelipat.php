@@ -19,14 +19,15 @@
                             $keterangan=$c->keterangan;
                         }
                         echo base_url('pelipat/simpanubah/'.urlencode($kode_pelipat)); };?>" method="post">
+                        <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
-                            <label>Kode Pelipat</label>
-                            <input class="form-control" placeholder="Masukan kode pelipat" name="kode_pelipat"
+                            <label>Kode Pelipat *</label>
+                            <input required class="form-control" placeholder="Masukan kode pelipat" name="kode_pelipat"
                             <?php if($status=='ubah'){echo "value=\"".$kode_pelipat."\"" ;} ?>>
                         </div>
                         <div class="form-group">
-                            <label>Nama Pelipat</label>
-                            <input class="form-control" placeholder="Masukan nama pelipat" name="nama_pelipat"
+                            <label>Nama Pelipat*</label>
+                            <input required class="form-control" placeholder="Masukan nama pelipat" name="nama_pelipat"
                             <?php if($status=='ubah'){echo "value=\"".$nama_pelipat."\"" ;} ?>>
                         </div>
                         <div class="form-group">

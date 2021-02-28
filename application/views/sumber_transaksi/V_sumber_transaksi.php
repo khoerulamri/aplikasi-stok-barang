@@ -16,14 +16,15 @@
                             $nama_sumber_transaksi=$c->nama_sumber_transaksi;
                         }
                         echo base_url('sumber_transaksi/simpanubah/'.urlencode($kode_sumber_transaksi)); };?>" method="post">
+                        <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
-                            <label>Kode Sumber Transaksi</label>
-                            <input class="form-control" placeholder="Masukan kode sumber_transaksi" name="kode_sumber_transaksi"
+                        <!--    <label>Kode Sumber Transaksi</label> -->
+                            <input type="hidden" class="form-control" placeholder="Masukan kode sumber_transaksi" name="kode_sumber_transaksi"
                             <?php if($status=='ubah'){echo "value=\"".$kode_sumber_transaksi."\"" ;} ?>>
                         </div>
                         <div class="form-group">
-                            <label>Nama Sumber Transaksi</label>
-                            <input class="form-control" placeholder="Masukan nama sumber_transaksi" name="nama_sumber_transaksi"
+                            <label>Nama Sumber Transaksi *</label>
+                            <input required class="form-control" placeholder="Masukan nama sumber_transaksi" name="nama_sumber_transaksi"
                             <?php if($status=='ubah'){echo "value=\"".$nama_sumber_transaksi."\"" ;} ?>>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('sumber_transaksi');?>" class="btn btn-info pull-right">Kembali</a></div>

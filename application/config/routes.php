@@ -92,6 +92,10 @@ $route['sumber_transaksi'] = 'C_sumber_transaksi/index';
 $route['sumber_transaksi/(:any)'] = 'C_sumber_transaksi/$1';
 $route['sumber_transaksi/(:any)/(:any)'] = 'C_sumber_transaksi/$1/$2';
 
+$route['produksi'] = 'C_produksi/index';
+$route['produksi/(:any)'] = 'C_produksi/$1';
+$route['produksi/(:any)/(:any)'] = 'C_produksi/$1/$2';
+
 
 $route['laporan'] = 'C_laporan/index';
 $route['laporan/(:any)'] = 'C_laporan/$1';

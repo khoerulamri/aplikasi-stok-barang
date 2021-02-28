@@ -218,4 +218,5 @@ class C_barang extends CI_Controller {
         //output dalam format JSON
         echo json_encode($output);
     }
+
 }

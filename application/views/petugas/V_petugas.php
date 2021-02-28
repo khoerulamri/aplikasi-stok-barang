@@ -19,14 +19,15 @@
                             $kode_hak_akses=$p->kode_hak_akses;
                         }
                         echo base_url('petugas/simpanubah/'.urlencode($kode_petugas)); };?>" method="post">
+                        <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
-                            <label>Kode Petugas</label>
-                            <input class="form-control" placeholder="Masukan kode petugas" name="kode_petugas"
+                            <label>Kode Petugas *</label>
+                            <input required class="form-control" placeholder="Masukan kode petugas" name="kode_petugas"
                             <?php if($status=='ubah'){echo "value=\"".$kode_petugas."\"" ;} ?>>
                         </div>
                         <div class="form-group">
-                            <label>Nama Petugas</label>
-                            <input class="form-control" placeholder="Masukan nama petugas" name="nama_petugas"
+                            <label>Nama Petugas *</label>
+                            <input required class="form-control" placeholder="Masukan nama petugas" name="nama_petugas"
                             <?php if($status=='ubah'){echo "value=\"".$nama_petugas."\"" ;} ?>>
                         </div>
                         <div class="form-group">

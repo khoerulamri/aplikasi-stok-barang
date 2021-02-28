@@ -19,14 +19,15 @@
                             $keterangan=$c->keterangan;
                         }
                         echo base_url('customer/simpanubah/'.urlencode($kode_customer)); };?>" method="post">
+                        <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
-                            <label>Kode Customer</label>
-                            <input class="form-control" placeholder="Masukan kode customer" name="kode_customer"
+                            <label>Kode Customer *</label>
+                            <input required class="form-control" placeholder="Masukan kode customer" name="kode_customer"
                             <?php if($status=='ubah'){echo "value=\"".$kode_customer."\"" ;} ?>>
                         </div>
                         <div class="form-group">
-                            <label>Nama Customer</label>
-                            <input class="form-control" placeholder="Masukan nama customer" name="nama_customer"
+                            <label>Nama Customer *</label>
+                            <input required class="form-control" placeholder="Masukan nama customer" name="nama_customer"
                             <?php if($status=='ubah'){echo "value=\"".$nama_customer."\"" ;} ?>>
                         </div>
                         <div class="form-group">

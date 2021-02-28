@@ -48,7 +48,7 @@
     <!-- <script src="<?php echo base_url('assets/dist/js/pages/dashboard.js'); ?>"></script> -->
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="<?php echo base_url('assets/dist/js/demo.js'); ?>"></script> -->
-   
+    <script src="<?php echo base_url('assets/bower_components/select2/dist/js/select2.full.min.js'); ?>"></script>
 
         <!-- DataTables JavaScript -->
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js'); ?>"></script>
@@ -259,15 +259,115 @@
             "scrollX": true,
         });
 
+
+         table = $('#dataProduksiBarang').DataTable({ 
+ 
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+            "lengthMenu": [[ 5, 20, 50, 100, -1 ],[ '5 baris', '20 baris', '50 baris', '100 baris', 'Tampilkan Semua' ]],
+            "ajax": {
+                "url": "<?php echo base_url('produksi/get_data_produksi')?>",
+                "type": "POST"
+            },
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            { 
+                "targets": [ 1 ], 
+                "orderable": false, 
+            }
+            ],
+            "dom": 'lBfrtip',
+            "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
+            {
+                text: 'Tambah Data Produksi',
+                action: function ( e, dt, node, config ) {
+                     window.location = '<?php echo base_url('produksi/tambah');?>';
+                }
+            }],
+            "scrollX": true,
+        });
+
        
     });
  
 </script>
 
+<script type="text/javascript">
+   $(document).ready(function(){
+
+      $("#barang").select2({
+         ajax: { 
+           url: '<?php echo base_url('produksi/get_data_barang_select')?>',
+           type: "post",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+              return {
+                searchTerm: params.term // search term
+              };
+           },
+
+           processResults: function (response) {
+              return {
+                 results: response
+              };
+           },
+           cache: true
+         }
+     });
+   });
+   </script>
+   
+<script type="text/javascript">
+   $(document).ready(function(){
+
+      $("#sumber_transaksi").select2({
+         ajax: { 
+           url: '<?php echo base_url('produksi/get_data_sumber_transaksi_select')?>',
+           type: "post",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+              return {
+                searchTerm: params.term // search term
+              };
+           },
+           
+           processResults: function (response) {
+              return {
+                 results: response
+              };
+           },
+           cache: true
+         }
+     });
+   });
+   </script>
+
 
 <script type="text/javascript">
         //Date picker
     $('#tglorder').datepicker({
+      autoclose: true,
+      format: 'dd-mm-yyyy'
+    })  
+</script>
+
+<script type="text/javascript">
+        //Date picker
+    $('#tgl_input').datepicker({
+      autoclose: true,
+      format: 'dd-mm-yyyy'
+    })  
+</script>
+
+<script type="text/javascript">
+        //Date picker
+    $('#tgl_produksi').datepicker({
       autoclose: true,
       format: 'dd-mm-yyyy'
     })  
