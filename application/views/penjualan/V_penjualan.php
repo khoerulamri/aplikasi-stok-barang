@@ -15,11 +15,14 @@
                         foreach($penjualan as $c){
                             $id_transaksi_penjualan=$c->id_transaksi_penjualan;
                             $tgl_input=$c->tgl_input;
+                            $tgl_transaksi=$c->tgl_transaksi;
                             $kode_petugas=$c->kode_petugas;
+                            $kode_customer=$c->kode_customer;
                             $kode_barang=$c->kode_barang;
                             $qty=$c->qty;
-                            $tgl_penjualan=$c->tgl_penjualan;
-                            $kode_sumber_transaksi=$c->kode_sumber_transaksi;
+                            $harga_barang=$c->harga_barang;
+                            $jumlah_bayar=$c->jumlah_bayar;
+                            $status_transaksi=$c->status_transaksi;
                             $keterangan=$c->keterangan;
                         }   
 
@@ -31,12 +34,12 @@
                         {
                             $tgl_input=date('d-m-Y',strtotime($tgl_input));
                         }
-                        if ('01-01-1970'==$tgl_penjualan || '0000-00-00' == $tgl_penjualan) {
-                            $tgl_penjualan='';
+                        if ('01-01-1970'==$tgl_transaksi || '0000-00-00' == $tgl_transaksi) {
+                            $tgl_transaksi='';
                         }
                         else
                         {
-                            $tgl_penjualan=date('d-m-Y',strtotime($tgl_penjualan));
+                            $tgl_transaksi=date('d-m-Y',strtotime($tgl_transaksi));
                         }
                         echo base_url('penjualan/simpanubah/'.urlencode($id_transaksi_penjualan)); };?>" method="post">
                         <div class="form-group">*) Wajib Terisi</div>
@@ -52,14 +55,31 @@
                             { echo date('d-m-Y');} ?>" id="tgl_input" name="tgl_input" required>
                         </div>
 						<div class="form-group">
-                            <label>Tanggal Produksi *</label>
-                            <input type="text" class="form-control" value="<?php if($status=='ubah'){echo date('d-m-Y',strtotime($tgl_penjualan));}
+                            <label>Tanggal Penjualan *</label>
+                            <input type="text" class="form-control" value="<?php if($status=='ubah'){echo date('d-m-Y',strtotime($tgl_transaksi));}
                             else
-                            { echo date('d-m-Y');} ?>" id="tgl_penjualan" name="tgl_penjualan" required>
+                            { echo date('d-m-Y');} ?>" id="tgl_transaksi" name="tgl_transaksi" required>
                         </div>
                         <div class="form-group">
-                            <label>Barang</label>
-							<select  id="barang" class="form-control" name="kode_barang" required>
+                            <label>Customer *</label>
+							<select  id="customer" class="form-control" name="kode_customer" required>
+                                <?php 
+                                    foreach ($getAllCustomer as $gAC) {
+                                        if($status=='ubah' && $kode_customer==$gAC->kode_customer)
+                                        {
+                                        echo "<option value=".$gAC->kode_customer." selected>".$gAC->kode_customer."-".$gAC->nama_customer."</option>";
+                                        }
+                                        else
+                                        {
+                                        echo " <option value=''>-- Pilih Customer --</option>";
+                                        }   
+                                    }
+                                    ?>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Barang *</label>
+                            <select  id="barang" class="form-control" name="kode_barang" required>
                                 <?php 
                                     foreach ($getAllBarang as $gAC) {
                                         if($status=='ubah' && $kode_barang==$gAC->kode_barang)
@@ -79,20 +99,25 @@
                             <input class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty" required>
                         </div>
 						<div class="form-group">
-                            <label>Sumber Transaksi * <?php echo $kode_sumber_transaksi;?></label>
-							<select id="sumber_transaksi" class="form-control" name="kode_sumber_transaksi" required>
-                               <?php 
-                                    foreach ($getAllsumber_transaksi as $gAC) {
-                                        if($status=='ubah' && $kode_sumber_transaksi==$gAC->kode_sumber_transaksi)
-                                        {
-                                        echo "<option value=".$gAC->kode_sumber_transaksi." selected>".$gAC->nama_sumber_transaksi."</option>";
-                                        }
-                                        else
-                                        {
-                                        echo " <option value=''>-- Pilih Barang --</option>";
-                                        }   
-                                    }
-                                    ?> 
+                            <label>Harga *</label>                                          
+                            <input class="form-control" placeholder="Masukan harga barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$harga_barang."\"" ;} ?>  name="harga_barang" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Jumlah Bayar *</label>                                          
+                            <input class="form-control" placeholder="Masukan jumlah bayar"  type="number" <?php if($status=='ubah'){echo "value=\"".$jumlah_bayar."\"" ;} ?>  name="jumlah_bayar" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Status Transaksi *</label>
+                            <select  id="status_transaksi" class="form-control" name="status_transaksi" required>
+                                 <option value='Lunas' 
+                                 <?php if('Lunas'==$status_transaksi)
+                                    echo "selected";
+                                 ?> >Lunas</option>";
+                                 <option value='Tempo'
+                                 <?php if('Tempo'==$status_transaksi)
+                                    echo "selected";
+                                 ?>
+                                 >Tempo</option>";
                             </select>
                         </div>
                          <div class="form-group">

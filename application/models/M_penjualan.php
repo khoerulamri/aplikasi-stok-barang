@@ -1,18 +1,19 @@
 <?php 
 class M_penjualan extends CI_Model {
 	
-	var $table = "(SELECT id_transaksi_penjualan,tgl_input,tgl_penjualan,p.kode_petugas,a.nama_petugas, nama_sumber_transaksi,
-p.kode_barang,b.nama_barang, p.qty,p.keterangan,
+	var $table = "(SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
+p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
 DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
-DATE_FORMAT(p.tgl_penjualan,_utf8'%d %b %y') AS tgl_penjualan_tampil
- FROM penjualan p
+DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
+c.nama_customer
+FROM penjualan p
 LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
-LEFT JOIN sumber_transaksi st ON st.kode_sumber_transaksi=p.kode_sumber_transaksi
+LEFT JOIN customer c ON c.kode_customer=p.kode_customer
 LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 ) tabel"; //nama tabel dari database
 
-    var $column_order = array(null,null,'tgl_input_tampil','tgl_penjualan_tampil','nama_petugas','nama_barang','qty','nama_sumber_transaksi','keterangan'); //field yang ada di table 
-    var $column_search = array('tgl_input_tampil','tgl_penjualan_tampil','nama_petugas','nama_barang','qty','nama_sumber_transaksi','keterangan');  //field yang diizin untuk pencarian 
+    var $column_order = array(null,null,'tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','qty','harga_barang','jumlah_bayar','status_transaksi','keterangan'); //field yang ada di table 
+    var $column_search = array('tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','qty','harga_barang','jumlah_bayar','status_transaksi','keterangan');  //field yang diizin untuk pencarian 
     var $order = array('tgl_input' => 'desc'); // default order 
 
 	public function __construct()
@@ -36,16 +37,27 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 		}
 
 
-   	public function savePenjualan($tgl_input,$tgl_penjualan,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan)
+   	public function savePenjualan($tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan)
         {
-                
-          $sql = "insert into penjualan (tgl_input,kode_petugas,kode_barang,qty,tgl_penjualan,kode_sumber_transaksi,keterangan) values (now(),'$kode_petugas','$kode_barang','$qty','$tgl_penjualan','$kode_sumber_transaksi','$keterangan')"; 
+       
+          $sql = "insert into penjualan (tgl_input, tgl_transaksi, kode_petugas, kode_customer, kode_barang, qty, harga_barang, jumlah_bayar, status_transaksi, keterangan) values (now(), '$tgl_transaksi', '$kode_petugas', '$kode_customer', '$kode_barang', '$qty', '$harga_barang', '$jumlah_bayar', '$status_transaksi', '$keterangan')"; 
           $query = $this->db->query($sql);
 		}
 
-   	public function updatePenjualan($kodelama,$kodebaru,$tgl_input,$tgl_penjualan,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan)
+   	public function updatePenjualan($kodelama,$kodebaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan)
         {
-                $sql = "update penjualan set tgl_penjualan='$tgl_penjualan',kode_petugas='$kode_petugas', kode_barang='$kode_barang', qty='$qty', kode_sumber_transaksi='$kode_sumber_transaksi', keterangan='$keterangan' where id_transaksi_penjualan='$kodelama'";
+                $sql = "update penjualan set 
+                tgl_transaksi='$tgl_transaksi',
+                kode_petugas='$kode_petugas', 
+                kode_customer='$kode_customer', 
+                kode_barang='$kode_barang', 
+                qty='$qty', 
+                harga_barang='$harga_barang', 
+                jumlah_bayar='$jumlah_bayar', 
+                status_transaksi='$status_transaksi', 
+                keterangan='$keterangan' 
+                where 
+                id_transaksi_penjualan='$kodelama'";
 				$query = $this->db->query($sql);
 
 			
@@ -61,14 +73,15 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
    	public function getPenjualanAll()
         {
-                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_penjualan,p.kode_petugas,a.nama_petugas, nama_sumber_transaksi,
-                  p.kode_barang,b.nama_barang, p.qty,p.keterangan,
-                  DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
-                  DATE_FORMAT(p.tgl_penjualan,_utf8'%d %b %y') AS tgl_penjualan_tampil
-                   FROM penjualan p
-                  LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
-                  LEFT JOIN sumber_transaksi st ON st.kode_sumber_transaksi=p.kode_sumber_transaksi
-                  LEFT JOIN barang b ON b.kode_barang=p.kode_barang ORDER BY tgl_input desc";
+                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
+                p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+                DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
+                DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
+                c.nama_customer,p.status_transaksi
+                FROM penjualan p
+                LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
+                LEFT JOIN customer c ON c.kode_customer=p.kode_customer
+                LEFT JOIN barang b ON b.kode_barang=p.kode_barang ORDER BY tgl_input desc";
                 
                 $query = $this->db->query($sql);
 
@@ -78,14 +91,15 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
 	public function getPenjualanByKode($id_transaksi_penjualan)
         {
-                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_penjualan,p.kode_petugas,a.nama_petugas, p.kode_sumber_transaksi,nama_sumber_transaksi,
-                  p.kode_barang,b.nama_barang, p.qty,p.keterangan,
-                  DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
-                  DATE_FORMAT(p.tgl_penjualan,_utf8'%d %b %y') AS tgl_penjualan_tampil
-                   FROM penjualan p
-                  LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
-                  LEFT JOIN sumber_transaksi st ON st.kode_sumber_transaksi=p.kode_sumber_transaksi
-                  LEFT JOIN barang b ON b.kode_barang=p.kode_barang where id_transaksi_penjualan='$id_transaksi_penjualan'";
+                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
+                        p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+                        DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
+                        DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
+                        c.nama_customer,p.status_transaksi,p.kode_customer
+                        FROM penjualan p
+                        LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
+                        LEFT JOIN customer c ON c.kode_customer=p.kode_customer
+                        LEFT JOIN barang b ON b.kode_barang=p.kode_barang where id_transaksi_penjualan='$id_transaksi_penjualan'";
 				
 				$query = $this->db->query($sql);
 
@@ -172,9 +186,9 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
   }
 
-  public function get_data_sumber_transaksi_select($searchTerm=""){
+  public function get_data_customer_select($searchTerm=""){
 
-      $sql = "select * from sumber_transaksi where kode_sumber_transaksi like '%".$searchTerm."%' or nama_sumber_transaksi like '%".$searchTerm."%' limit 10;";
+      $sql = "select * from customer where kode_customer like '%".$searchTerm."%' or nama_customer like '%".$searchTerm."%' limit 10;";
         
       $query = $this->db->query($sql);
 
@@ -183,10 +197,11 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
       // Initialize Array with fetched data
         $data = array();
         foreach($hasil as $h){
-            $data[] = array("id"=>$h['kode_sumber_transaksi'], "text"=>$h['nama_sumber_transaksi']);
+            $data[] = array("id"=>$h['kode_customer'], "text"=>$h['nama_customer']);
         }
         return $data;
 
   }
+
 	
 }

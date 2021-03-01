@@ -51,7 +51,7 @@
                             { echo date('d-m-Y');} ?>" id="tgl_serahkan" name="tgl_serahkan" required>
                         </div>
                         <div class="form-group">
-                            <label>Produksi</label>
+                            <label>Produksi *</label>
 							<select  id="produksi" class="form-control" name="id_transaksi_produksi" required>
                                 <?php 
                                     foreach ($getAllProduksi as $gAC) {
@@ -68,7 +68,7 @@
                                 </select>
                         </div>
                         <div class="form-group">
-                            <label>Pelipat</label>
+                            <label>Pelipat *</label>
                             <select  id="pelipat" class="form-control" name="kode_pelipat" required>
                                 <?php 
                                     foreach ($getAllPelipat as $gAC) {

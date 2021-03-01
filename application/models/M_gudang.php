@@ -50,15 +50,15 @@ class M_gudang extends CI_Model {
 		}
 
 
-   	public function saveGudang($tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan)
+   	public function saveGudang($tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi)
         {
-          $sql = "insert into gudang (tgl_input,tgl_serahkan,kode_petugas,kode_pelipat,qty,keterangan) values (now(),'$tgl_serahkan','$kode_petugas','$kode_pelipat','$qty','$keterangan')"; 
+          $sql = "insert into gudang (tgl_input,tgl_serahkan,kode_petugas,kode_pelipat,qty,keterangan,id_transaksi_produksi) values (now(),'$tgl_serahkan','$kode_petugas','$kode_pelipat','$qty','$keterangan','$id_transaksi_produksi')"; 
           $query = $this->db->query($sql);
 		}
 
-   	public function updateGudang($kodelama,$kodebaru,$tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan)
+   	public function updateGudang($kodelama,$kodebaru,$tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi)
         {
-                $sql = "update gudang set tgl_serahkan='$tgl_serahkan',kode_petugas='$kode_petugas', kode_pelipat='$kode_pelipat', qty='$qty', keterangan='$keterangan' where id_transaksi_gudang='$kodelama'";
+                $sql = "update gudang set tgl_serahkan='$tgl_serahkan',kode_petugas='$kode_petugas', kode_pelipat='$kode_pelipat', qty='$qty', keterangan='$keterangan', id_transaksi_produksi='$id_transaksi_produksi' where id_transaksi_gudang='$kodelama'";
 				$query = $this->db->query($sql);
 
 			

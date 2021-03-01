@@ -25,7 +25,7 @@ class C_penjualan extends CI_Controller {
 		  
 		  $this->load->model('M_penjualan');
 		  $this->load->model('M_barang');
-		  $this->load->model('M_sumber_transaksi');
+		  $this->load->model('M_customer');
 		  $this->load->helper('date');
 
     }
@@ -81,7 +81,7 @@ class C_penjualan extends CI_Controller {
 			$data['kode_hak_akses']=$var['kode_hak_akses'];
 			
 			$data['getAllBarang'] = $this->M_barang->getBarangAll();
-			$data['getAllsumber_transaksi'] = $this->M_sumber_transaksi->getSumberTransaksiAll();
+			$data['getAllCustomer'] = $this->M_customer->getCustomerAll();
 
 			$id_transaksi_penjualan=urldecode($id_transaksi_penjualan);
 			$data['penjualan']=$this->M_penjualan->getPenjualanByKode($id_transaksi_penjualan);
@@ -107,18 +107,22 @@ class C_penjualan extends CI_Controller {
 
 			$id_transaksi_penjualanbaru = $this->input->post('id_transaksi_penjualan');
 			$tgl_input = $this->input->post('tgl_input');
-			$tgl_penjualan = $this->input->post('tgl_penjualan');
+			$tgl_transaksi = $this->input->post('tgl_transaksi');
 			$kode_petugas = $this->session->userdata('kode_petugas');
+			$kode_customer = $this->input->post('kode_customer');
 			$kode_barang = $this->input->post('kode_barang');
 			$qty = $this->input->post('qty');
-			$kode_sumber_transaksi = $this->input->post('kode_sumber_transaksi');
+			$harga_barang = $this->input->post('harga_barang');
+			$jumlah_bayar = $this->input->post('jumlah_bayar');
+			$status_transaksi = $this->input->post('status_transaksi');
 			$keterangan = $this->input->post('keterangan');
 
 			$tgl_input=date('Y-m-d',strtotime($tgl_input));
-			$tgl_penjualan=date('Y-m-d',strtotime($tgl_penjualan));
+			$tgl_transaksi=date('Y-m-d',strtotime($tgl_transaksi));
 			
 			$id_transaksi_penjualan=urldecode($id_transaksi_penjualan);
-			$this->M_penjualan->updatePenjualan($id_transaksi_penjualan,$id_transaksi_penjualanbaru,$tgl_input,$tgl_penjualan,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan);
+
+			$this->M_penjualan->updatePenjualan($id_transaksi_penjualan,$id_transaksi_penjualanbaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan);
 			$data['id_transaksi_penjualan']=$id_transaksi_penjualanbaru;
 			$this->load->view('penjualan/V_penjualan_ubah',$data);
 			
@@ -136,19 +140,20 @@ class C_penjualan extends CI_Controller {
 			
 			$data['status'] = 'tambah';
 
-			$tgl_input = $this->input->post('tgl_input');
-			$tgl_penjualan = $this->input->post('tgl_penjualan');
+			$tgl_transaksi = $this->input->post('tgl_transaksi');
 			$kode_petugas = $this->session->userdata('kode_petugas');
+			$kode_customer = $this->input->post('kode_customer');
 			$kode_barang = $this->input->post('kode_barang');
 			$qty = $this->input->post('qty');
-			$kode_sumber_transaksi = $this->input->post('kode_sumber_transaksi');
+			$harga_barang = $this->input->post('harga_barang');
+			$jumlah_bayar = $this->input->post('jumlah_bayar');
+			$status_transaksi = $this->input->post('status_transaksi');
 			$keterangan = $this->input->post('keterangan');
 
+			$tgl_transaksi=date('Y-m-d',strtotime($tgl_transaksi));
 
-			$tgl_penjualan=date('Y-m-d',strtotime($tgl_penjualan));
 
-
-			$this->M_penjualan->savePenjualan($tgl_input,$tgl_penjualan,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan);
+			$this->M_penjualan->savePenjualan($tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan);
 			$data['id_transaksi_penjualan']=$id_transaksi_penjualan;
 			$this->load->view('penjualan/V_penjualan_simpan',$data);
 
@@ -173,7 +178,7 @@ class C_penjualan extends CI_Controller {
 			$data['status']='tambah';
 
 			$data['getAllBarang'] = $this->M_barang->getBarangAll();
-			$data['getAllsumber_transaksi'] = $this->M_sumber_transaksi->getSumberTransaksiAll();
+			$data['getAllCustomer'] = $this->M_customer->getCustomerAll();
 			
 			$this->load->view('V_header',$data);
 			$this->load->view('V_menu',$data);
@@ -199,13 +204,17 @@ class C_penjualan extends CI_Controller {
             		  <a href="'.base_url('penjualan/hapus/').urlencode($field->id_transaksi_penjualan).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
             $row[] = $field->tgl_input;
-            $row[] = $field->tgl_penjualan;
+            $row[] = $field->tgl_transaksi_tampil;
             $row[] = $field->nama_petugas;
+            $row[] = $field->nama_customer;
             $row[] = $field->nama_barang;
             $row[] = $field->qty;
-            $row[] = $field->nama_sumber_transaksi;
+            $row[] = $field->harga_barang;
+            $row[] = $field->jumlah_bayar;
+            $row[] = $field->status_transaksi;
             $row[] = $field->keterangan;
             $data[] = $row;
+
         }
         $output = array(
             "draw" => $_POST['draw'],
@@ -223,9 +232,9 @@ class C_penjualan extends CI_Controller {
       echo json_encode($response);
     }
 
-	public function get_data_sumber_transaksi_select(){
+	public function get_data_customer_select(){
       $searchTerm = $this->input->post('searchTerm');
-      $response = $this->M_penjualan->get_data_sumber_transaksi_select($searchTerm);
+      $response = $this->M_penjualan->get_data_customer_select($searchTerm);
       echo json_encode($response);
     }
 

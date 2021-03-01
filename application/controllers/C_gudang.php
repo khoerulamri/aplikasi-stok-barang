@@ -81,6 +81,7 @@ class C_gudang extends CI_Controller {
 			$data['nama_petugas']=$var['nama_petugas'];
 			$data['kode_hak_akses']=$var['kode_hak_akses'];
 			
+			$data['getAllProduksi'] = $this->M_produksi->getProduksiAll();			
 			$data['getAllPelipat'] = $this->M_pelipat->getPelipatAll();
 			
 			$id_transaksi_gudang=urldecode($id_transaksi_gudang);
@@ -107,18 +108,18 @@ class C_gudang extends CI_Controller {
 
 			$id_transaksi_gudangbaru = $this->input->post('id_transaksi_gudang');
 			$tgl_input = $this->input->post('tgl_input');
-			$tgl_gudang = $this->input->post('tgl_gudang');
+			$tgl_serahkan = $this->input->post('tgl_serahkan');
 			$kode_petugas = $this->session->userdata('kode_petugas');
-			$kode_barang = $this->input->post('kode_barang');
+			$kode_pelipat = $this->input->post('kode_pelipat');
 			$qty = $this->input->post('qty');
-			$kode_sumber_transaksi = $this->input->post('kode_sumber_transaksi');
+			$id_transaksi_produksi = $this->input->post('id_transaksi_produksi');
 			$keterangan = $this->input->post('keterangan');
 
 			$tgl_input=date('Y-m-d',strtotime($tgl_input));
-			$tgl_gudang=date('Y-m-d',strtotime($tgl_gudang));
+			$tgl_serahkan=date('Y-m-d',strtotime($tgl_serahkan));
 			
 			$id_transaksi_gudang=urldecode($id_transaksi_gudang);
-			$this->M_gudang->updateGudang($id_transaksi_gudang,$id_transaksi_gudangbaru,$tgl_input,$tgl_gudang,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan);
+			$this->M_gudang->updateGudang($id_transaksi_gudang,$id_transaksi_gudangbaru,$tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi);
 			$data['id_transaksi_gudang']=$id_transaksi_gudangbaru;
 			$this->load->view('gudang/V_gudang_ubah',$data);
 			
@@ -137,18 +138,17 @@ class C_gudang extends CI_Controller {
 			$data['status'] = 'tambah';
 
 			$tgl_input = $this->input->post('tgl_input');
-			$tgl_gudang = $this->input->post('tgl_gudang');
+			$tgl_serahkan = $this->input->post('tgl_serahkan');
+			$id_transaksi_produksi = $this->input->post('id_transaksi_produksi');
 			$kode_petugas = $this->session->userdata('kode_petugas');
-			$kode_barang = $this->input->post('kode_barang');
+			$kode_pelipat = $this->input->post('kode_pelipat');
 			$qty = $this->input->post('qty');
-			$kode_sumber_transaksi = $this->input->post('kode_sumber_transaksi');
 			$keterangan = $this->input->post('keterangan');
 
 
-			$tgl_gudang=date('Y-m-d',strtotime($tgl_gudang));
+			$tgl_serahkan=date('Y-m-d',strtotime($tgl_serahkan));
 
-
-			$this->M_gudang->saveGudang($tgl_input,$tgl_gudang,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan);
+			$this->M_gudang->saveGudang($tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi);
 			$data['id_transaksi_gudang']=$id_transaksi_gudang;
 			$this->load->view('gudang/V_gudang_simpan',$data);
 

@@ -347,7 +347,7 @@
             "dom": 'lBfrtip',
             "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
             {
-                text: 'Tambah Data Produksi',
+                text: 'Tambah Data Penjualan',
                 action: function ( e, dt, node, config ) {
                      window.location = '<?php echo base_url('penjualan/tambah');?>';
                 }
@@ -392,6 +392,32 @@
       $("#pelipat").select2({
          ajax: { 
            url: '<?php echo base_url('gudang/get_data_pelipat_select')?>',
+           type: "post",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+              return {
+                searchTerm: params.term // search term
+              };
+           },
+           
+           processResults: function (response) {
+              return {
+                 results: response
+              };
+           },
+           cache: true
+         }
+     });
+   });
+   </script>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+
+      $("#customer").select2({
+         ajax: { 
+           url: '<?php echo base_url('penjualan/get_data_customer_select')?>',
            type: "post",
            dataType: 'json',
            delay: 250,
@@ -492,6 +518,22 @@
 <script type="text/javascript">
         //Date picker
     $('#tgltempo').datepicker({
+      autoclose: true,
+      format: 'dd-mm-yyyy'
+    })  
+</script>
+
+<script type="text/javascript">
+        //Date picker
+    $('#tgl_serahkan').datepicker({
+      autoclose: true,
+      format: 'dd-mm-yyyy'
+    })  
+</script>
+
+<script type="text/javascript">
+        //Date picker
+    $('#tgl_transaksi').datepicker({
       autoclose: true,
       format: 'dd-mm-yyyy'
     })  
