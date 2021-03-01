@@ -40,19 +40,23 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
         {
                 
           $sql = "insert into produksi (tgl_input,kode_petugas,kode_barang,qty,tgl_produksi,kode_sumber_transaksi,keterangan) values (now(),'$kode_petugas','$kode_barang','$qty','$tgl_produksi','$kode_sumber_transaksi','$keterangan')"; 
-          $query = $this->db->query($sql);
+          $query = $this->db->query($sql); 
+
+
 		}
 
    	public function updateProduksi($kodelama,$kodebaru,$tgl_input,$tgl_produksi,$kode_petugas,$kode_barang,$qty,$kode_sumber_transaksi,$keterangan)
         {
-                $sql = "update produksi set tgl_produksi='$tgl_produksi',kode_petugas='$kode_petugas', kode_barang='$kode_barang', qty='$qty', kode_sumber_transaksi='$kode_sumber_transaksi', keterangan='$keterangan' where id_transaksi_produksi='$kodelama'";
-				$query = $this->db->query($sql);
 
+         
+          $sql = "update produksi set tgl_produksi='$tgl_produksi',kode_petugas='$kode_petugas', kode_barang='$kode_barang', qty='$qty', kode_sumber_transaksi='$kode_sumber_transaksi', keterangan='$keterangan' where id_transaksi_produksi='$kodelama'";
+	        $query = $this->db->query($sql);
 			
 		}
 
    	public function deleteProduksi($kode)
       {
+         
           $sql ="INSERT INTO produksi_hapus SELECT *,now() as tgl_hapus FROM produksi where id_transaksi_produksi='$kode'";
           $query = $this->db->query($sql);
           $sql = "delete from produksi where id_transaksi_produksi='$kode'";
@@ -78,14 +82,15 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
 	public function getProduksiByKode($id_transaksi_produksi)
         {
-                $sql = "SELECT id_transaksi_produksi,tgl_input,tgl_produksi,p.kode_petugas,a.nama_petugas, p.kode_sumber_transaksi,nama_sumber_transaksi,
+                $sql = "SELECT id_transaksi_produksi,tgl_input,tgl_produksi,p.kode_petugas,a.nama_petugas, nama_sumber_transaksi,
                   p.kode_barang,b.nama_barang, p.qty,p.keterangan,
                   DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
                   DATE_FORMAT(p.tgl_produksi,_utf8'%d %b %y') AS tgl_produksi_tampil
+                  ,p.kode_sumber_transaksi
                    FROM produksi p
                   LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
                   LEFT JOIN sumber_transaksi st ON st.kode_sumber_transaksi=p.kode_sumber_transaksi
-                  LEFT JOIN barang b ON b.kode_barang=p.kode_barang where id_transaksi_produksi='$id_transaksi_produksi'";
+                   where id_transaksi_produksi='$id_transaksi_produksi'";
 				
 				$query = $this->db->query($sql);
 
@@ -187,6 +192,7 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
         }
         return $data;
 
-  }
+  } 
+
 	
 }

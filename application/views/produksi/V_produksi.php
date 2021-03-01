@@ -79,7 +79,7 @@
                             <input class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty" required>
                         </div>
 						<div class="form-group">
-                            <label>Sumber Transaksi * <?php echo $kode_sumber_transaksi;?></label>
+                            <label>Sumber Transaksi *</label>
 							<select id="sumber_transaksi" class="form-control" name="kode_sumber_transaksi" required>
                                <?php 
                                     foreach ($getAllsumber_transaksi as $gAC) {
@@ -89,7 +89,7 @@
                                         }
                                         else
                                         {
-                                        echo " <option value=''>-- Pilih Barang --</option>";
+                                        echo " <option value=''>-- Pilih Sumber Transaksi --</option>";
                                         }   
                                     }
                                     ?> 

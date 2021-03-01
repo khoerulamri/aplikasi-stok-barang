@@ -74,7 +74,7 @@
                                     }?>><a href="<?php echo base_url('penjualan');?>"><i class="fa fa-file-text"></i>Data Penjualan</a></li>
           </ul>
         </li>
-        <li class="<?php if(($menu_active=='laporanstokbarang')||($menu_active=='laporanstokbarangdetail'))
+        <li class="<?php if(($menu_active=='laporan_stok_barang'))
                                     {
                                         echo 'active';
                                     }?> treeview" >
@@ -85,14 +85,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li <?php if($menu_active=='laporanstokbarang')
+            <li <?php if($menu_active=='laporan_stok_barang')
                                     {
                                         echo 'class="active"';
-                                    }?>><a href="<?php echo base_url('laporan/laporanstokbarang')?>"><i class="fa fa-book"></i>Lap. Stok Barang</a></li>
-            <li <?php if($menu_active=='laporanstokbarangdetail')
-                                    {
-                                        echo 'class="active"';
-                                    }?>><a href="<?php echo base_url('laporan/laporanstokbarangdetail')?>"><i class="fa fa-book"></i>Lap. Stok Barang Detail</a></li>
+                                    }?>><a href="<?php echo base_url('laporan')?>"><i class="fa fa-book"></i>Lap. Stok Barang</a></li>
           </ul>
         </li>
         <?php 

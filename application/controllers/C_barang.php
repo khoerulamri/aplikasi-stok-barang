@@ -24,6 +24,7 @@ class C_barang extends CI_Controller {
           parent::__construct();
 		  
 		  $this->load->model('M_barang');
+		  $this->load->model('M_perusahaan');
 
     }
 
@@ -79,6 +80,9 @@ class C_barang extends CI_Controller {
 			$data['nama_petugas']=$var['nama_petugas'];
 			$data['kode_hak_akses']=$var['kode_hak_akses'];
 			
+
+			$data['getAllPerusahaan'] = $this->M_perusahaan->getPerusahaanAll();
+
 			$kode_barang=urldecode($kode_barang);
 			$data['barang']=$this->M_barang->getBarangByKode($kode_barang);
 			$data['status']='ubah';
@@ -103,6 +107,8 @@ class C_barang extends CI_Controller {
 			$kode_barangbaru = $this->input->post('kode_barang');
 			$nama_barang = $this->input->post('nama_barang');
 
+			$kode_perusahaan = $this->input->post('kode_perusahaan');
+
 			//check kode baru sudah digunakan?
 			if ($kode_barang!=$kode_barangbaru)
 			{
@@ -124,7 +130,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode barang unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$telpon,$alamat,$keterangan);
+				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$kode_perusahaan);
 				$data['kode_barang']=$kode_barangbaru;
 				$this->load->view('barang/V_barang_ubah',$data);
 			}
@@ -146,6 +152,8 @@ class C_barang extends CI_Controller {
 			$kode_barang = $this->input->post('kode_barang');
 			$nama_barang = $this->input->post('nama_barang');
 
+			$kode_perusahaan = $this->input->post('kode_perusahaan');
+
 			$hasilcheck = $this->M_barang->checkBarang($kode_barang);
 
 			if($hasilcheck == true){
@@ -158,7 +166,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode pj unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->saveBarang($kode_barang,$nama_barang,$telpon,$alamat,$keterangan);
+				$this->M_barang->saveBarang($kode_barang,$nama_barang,$kode_perusahaan);
 				$data['kode_barang']=$kode_barang;
 				$this->load->view('barang/V_barang_simpan',$data);
 			}
@@ -180,6 +188,9 @@ class C_barang extends CI_Controller {
 			$data['kode_hak_akses']=$var['kode_hak_akses'];
 			
 			$data['status']='tambah';
+
+
+			$data['getAllPerusahaan'] = $this->M_perusahaan->getPerusahaanAll();
 			
 			$this->load->view('V_header',$data);
 			$this->load->view('V_menu',$data);
@@ -206,6 +217,7 @@ class C_barang extends CI_Controller {
             		  ';
             $row[] = $field->kode_barang;
             $row[] = $field->nama_barang;
+            $row[] = $field->nama_perusahaan;
             $data[] = $row;
         }
  
@@ -219,4 +231,9 @@ class C_barang extends CI_Controller {
         echo json_encode($output);
     }
 
+    public function get_data_perusahaan_select(){
+      $searchTerm = $this->input->post('searchTerm');
+      $response = $this->M_barang->get_data_perusahaan_select($searchTerm);
+      echo json_encode($response);
+    }
 }
