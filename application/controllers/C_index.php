@@ -38,12 +38,14 @@ class C_index extends CI_Controller {
 			$var = $this->session->userdata;
 			$data['nama_petugas']=$var['nama_petugas'];
 			$data['kode_hak_akses']=$var['kode_hak_akses'];
-			//$data['order_hari_ini']=$this->M_dashboard->orderHariIni();
-			//$data['bayar_hari_ini']=$this->M_dashboard->bayarHariIni();
-			//$data['lewat_batas_tempo']=$this->M_dashboard->monitoringOrderTempoRed();
-			//$data['lewat_batas_tempo2']=$this->M_dashboard->monitoringOrderTempoYellow();
-			//$data['lewat_batas_tempo34']=$this->M_dashboard->monitoringOrderTempoBlue();
-			//$data['lewat_batas_tempo5']=$this->M_dashboard->monitoringOrderTempoGreen();
+			$data['pendapatanTahunIni']=$this->M_dashboard->pendapatanTahunIni();
+			$data['customerTahunIni']=$this->M_dashboard->customerTahunIni();
+			$data['barangTahunIni']=$this->M_dashboard->barangTahunIni();
+			$data['grafikBulanTerakhir']=$this->M_dashboard->grafikBulanTerakhir();
+			$data['grafikBulanTerakhirGudang']=$this->M_dashboard->grafikBulanTerakhirGudang();
+			$data['jumlahBarangTahunIni']=$this->M_dashboard->jumlahBarangTahunIni();
+            $data['jumlahPelipatTahunIni']=$this->M_dashboard->jumlahPelipatTahunIni();
+            $data['barangStokKosong']=$this->M_dashboard->barangStokKosong();
 
 			$this->load->view('V_header',$data);
 			$this->load->view('V_menu',$data);

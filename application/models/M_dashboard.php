@@ -35,60 +35,120 @@ ORDER BY `a`.`tgl_order`) tabel "; //nama tabel dari database
 				$this->load->library('encrypt');
         }
 	
-	public function orderHariIni()
+	public function pendapatanTahunIni()
         {
-                $sql = "SELECT COUNT(*) AS jml_order, format(IFNULL(SUM(REPLACE(total_harga,',','')),0),0) total_harga FROM pesan WHERE tgl_order=DATE(NOW())";
+        $sql = "SELECT cout(*) as jumlah_transaksi, IFNULL(SUM(jumlah_bayar),0) AS jumlah_bayar 
+              FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 				
 				$query = $this->db->query($sql);
 
 				 return $query->result();
 				 
 		}
-
-	public function bayarHariIni()
+  
+  public function customerTahunIni()
         {
-                $sql = "SELECT COUNT(*) AS jml_pembayaran, format(IFNULL(SUM(REPLACE(jumlah_bayar,',','')),0),0) AS jumlah_bayar FROM pembayaran WHERE tgl_bayar=DATE(NOW())";
-				
-				$query = $this->db->query($sql);
-				 return $query->result();
-				 
-		}
+        $sql = "SELECT IFNULL(COUNT(kode_customer),0) AS jumlah_customer 
+FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
+        
+        $query = $this->db->query($sql);
 
-	public function monitoringOrderTempoRed()
+         return $query->result();
+         
+    }
+
+
+  public function barangTahunIni()
         {
-                $sql = "SELECT COUNT(*) AS jml FROM pesan WHERE kode_status='tempo' AND DATEDIFF(tgl_tempo,NOW()) < 0";
-				
-				$query = $this->db->query($sql);
-				 return $query->result();
-				 
-		}
+        $sql = "SELECT IFNULL(SUM(qty),0) AS qty_barang ,IFNULL(COUNT(kode_barang),0) AS jumlah_barang
+FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
+        
+        $query = $this->db->query($sql);
 
-	public function monitoringOrderTempoYellow()
+         return $query->result();
+         
+    }
+
+  public function grafikBulanTerakhir()
         {
-                $sql = "SELECT COUNT(*) AS jml FROM pesan WHERE kode_status='tempo' AND DATEDIFF(tgl_tempo,NOW()) between 0 and 2;";
-				
-				$query = $this->db->query($sql);
-				 return $query->result();
+        $sql = "SELECT tgl_transaksi,IFNULL(SUM(jumlah_bayar),0) AS jumlah_bayar 
+              FROM penjualan WHERE tgl_transaksi>=(tgl_transaksi-30)
+              GROUP BY tgl_transaksi 
+              ORDER BY tgl_transaksi DESC;";
+        
+        $query = $this->db->query($sql);
 
-		}
+         return $query->result();
+         
+    }
 
-	public function monitoringOrderTempoBlue()
+  public function grafikBulanTerakhirGudang()
         {
-                $sql = "SELECT COUNT(*) AS jml FROM pesan WHERE kode_status='tempo' AND DATEDIFF(tgl_tempo,NOW())  between 3 and 4 ;";
-				
-				$query = $this->db->query($sql);
-				 return $query->result();
+        $sql = "SELECT tgl_serahkan,IFNULL(SUM(qty),0) AS jumlah_datang 
+          FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
+          GROUP BY tgl_serahkan 
+          ORDER BY tgl_serahkan DESC;";
+        
+        $query = $this->db->query($sql);
 
-		}
+         return $query->result();
+         
+    }
 
-	public function monitoringOrderTempoGreen()
+
+  public function jumlahBarangTahunIni()
         {
-                $sql = "SELECT COUNT(*) AS jml FROM pesan WHERE kode_status='tempo' AND DATEDIFF(tgl_tempo,NOW()) >= 5 ;";
-				
-				$query = $this->db->query($sql);
-				 return $query->result();
+        $sql = "SELECT COUNT(*) AS jumlah_transaksi,IFNULL(SUM(qty),0) AS jumlah_datang 
+          FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
+          ORDER BY tgl_serahkan DESC;";
+        
+        $query = $this->db->query($sql);
 
-		}
+         return $query->result();
+         
+    }
+ 
+  public function jumlahPelipatTahunIni()
+        {
+        $sql = "SELECT COUNT(DISTINCT(kode_pelipat)) AS jumlah_pelipat
+        FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
+        ORDER BY tgl_serahkan DESC;";
+        
+        $query = $this->db->query($sql);
+
+         return $query->result();
+         
+    }
+
+  public function barangStokKosong()
+        {
+        $sql = "SELECT COUNT(kode_barang) FROM
+                (
+                SELECT 
+                        p.kode_perusahaan,
+                        pe.nama_perusahaan,
+                        p.kode_barang,
+                        p.nama_barang,
+                        IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0) AS qty_produksi,
+                        IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0)-
+                        IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
+                        (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
+                        ),0) AS qty_produksi_belum_kembali,
+                        IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
+                        (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
+                        ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
+                        IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan
+                        FROM barang p
+                        LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan
+                ) tabel WHERE qty_gudang_saat_ini=0";
+        
+        $query = $this->db->query($sql);
+
+         return $query->result();
+         
+    }
+
+  
 
 
     private function _get_datatables_query($where)
