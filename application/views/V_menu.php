@@ -1,4 +1,4 @@
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
@@ -49,6 +49,11 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
+
+        <?php
+        $kode_hak_akses = $this->session->userdata('kode_hak_akses');
+         ?>
+
         <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='penjualan'))
                                     {
                                         echo 'active';
@@ -60,20 +65,34 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <?php
+            if ('administrator'==$kode_hak_akses || 'produksi'==$kode_hak_akses)
+            { ?>
             <li <?php if($menu_active=='produksi')
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('produksi');?>"><i class="fa fa-file-text-o"></i>Data Produksi</a></li>
+            <?php } 
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses)
+            { ?>
             <li <?php if($menu_active=='gudang')
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('gudang');?>"><i class="fa fa-file-text"></i>Data Gudang</a></li>
+            <?php } 
+            if ('administrator'==$kode_hak_akses || 'penjualan'==$kode_hak_akses)
+            { ?>
            <li <?php if($menu_active=='penjualan')
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('penjualan');?>"><i class="fa fa-file-text"></i>Data Penjualan</a></li>
+            <?php } ?>
           </ul>
         </li>
+
+        <?php
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses)
+            { ?>
         <li class="<?php if(($menu_active=='laporan_stok_barang'))
                                     {
                                         echo 'active';
@@ -91,7 +110,8 @@
                                     }?>><a href="<?php echo base_url('laporan')?>"><i class="fa fa-book"></i>Lap. Stok Barang</a></li>
           </ul>
         </li>
-        <?php 
+        <?php } 
+            
         //Menu setting hanya muncul di halaman admin
         if("administrator"==$kode_hak_akses)
         {

@@ -37,7 +37,7 @@ ORDER BY `a`.`tgl_order`) tabel "; //nama tabel dari database
 	
 	public function pendapatanTahunIni()
         {
-        $sql = "SELECT cout(*) as jumlah_transaksi, IFNULL(SUM(jumlah_bayar),0) AS jumlah_bayar 
+        $sql = "SELECT FORMAT(count(*),0,'id_ID') as jumlah_transaksi, FORMAT(IFNULL(SUM(jumlah_bayar),0),0,'id_ID') AS jumlah_bayar 
               FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 				
 				$query = $this->db->query($sql);
@@ -48,7 +48,7 @@ ORDER BY `a`.`tgl_order`) tabel "; //nama tabel dari database
   
   public function customerTahunIni()
         {
-        $sql = "SELECT IFNULL(COUNT(kode_customer),0) AS jumlah_customer 
+        $sql = "SELECT FORMAT(IFNULL(COUNT(kode_customer),0),0,'id_ID') AS jumlah_customer 
 FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
         
         $query = $this->db->query($sql);
@@ -60,7 +60,7 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 
   public function barangTahunIni()
         {
-        $sql = "SELECT IFNULL(SUM(qty),0) AS qty_barang ,IFNULL(COUNT(kode_barang),0) AS jumlah_barang
+        $sql = "SELECT FORMAT(IFNULL(SUM(qty),0),0,'id_ID') AS qty_barang ,FORMAT(IFNULL(COUNT(kode_barang),0),0,'id_ID') AS jumlah_barang
 FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
         
         $query = $this->db->query($sql);
@@ -71,10 +71,10 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 
   public function grafikBulanTerakhir()
         {
-        $sql = "SELECT tgl_transaksi,IFNULL(SUM(jumlah_bayar),0) AS jumlah_bayar 
+        $sql = "SELECT DATE_FORMAT(tgl_transaksi, '%e %b %Y') as tgl_transaksi,IFNULL(SUM(jumlah_bayar),0) AS jumlah_bayar 
               FROM penjualan WHERE tgl_transaksi>=(tgl_transaksi-30)
               GROUP BY tgl_transaksi 
-              ORDER BY tgl_transaksi DESC;";
+              ORDER BY tgl_transaksi ;";
         
         $query = $this->db->query($sql);
 
@@ -84,21 +84,21 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 
   public function grafikBulanTerakhirGudang()
         {
-        $sql = "SELECT tgl_serahkan,IFNULL(SUM(qty),0) AS jumlah_datang 
+        $sql = "SELECT DATE_FORMAT(tgl_serahkan, '%e %b %Y') AS tgl_serahkan,IFNULL(SUM(qty),0) AS jumlah_datang 
           FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
           GROUP BY tgl_serahkan 
-          ORDER BY tgl_serahkan DESC;";
+          ORDER BY tgl_serahkan";
         
         $query = $this->db->query($sql);
 
-         return $query->result();
-         
+        return $query->result();
+
     }
 
 
   public function jumlahBarangTahunIni()
         {
-        $sql = "SELECT COUNT(*) AS jumlah_transaksi,IFNULL(SUM(qty),0) AS jumlah_datang 
+        $sql = "SELECT FORMAT(COUNT(*),0,'id_ID') AS jumlah_transaksi,FORMAT(IFNULL(SUM(qty),0),0,'id_ID') AS jumlah_datang 
           FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
           ORDER BY tgl_serahkan DESC;";
         
@@ -110,7 +110,7 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
  
   public function jumlahPelipatTahunIni()
         {
-        $sql = "SELECT COUNT(DISTINCT(kode_pelipat)) AS jumlah_pelipat
+        $sql = "SELECT FORMAT(COUNT(DISTINCT(kode_pelipat)),0,'id_ID') AS jumlah_pelipat
         FROM gudang WHERE tgl_serahkan>=(tgl_serahkan-30)
         ORDER BY tgl_serahkan DESC;";
         
@@ -122,7 +122,7 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
 
   public function barangStokKosong()
         {
-        $sql = "SELECT COUNT(kode_barang) FROM
+        $sql = "SELECT FORMAT(COUNT(kode_barang),0,'id_ID') as barang FROM
                 (
                 SELECT 
                         p.kode_perusahaan,
