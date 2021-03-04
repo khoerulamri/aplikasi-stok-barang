@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Stok Barang v.1.0.0.0</title>
+  <title>SB v.1.0.0.0</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -30,7 +30,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?php echo base_url() ?>"><b>Stok Barang</b> v.1.0.0.0</a>
+    <a href="<?php echo base_url() ?>"><b>SB</b> v.1.0.0.0</a>
   </div>
 
   <!-- /.login-logo -->
