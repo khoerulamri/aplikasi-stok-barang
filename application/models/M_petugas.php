@@ -29,7 +29,7 @@ class M_petugas extends CI_Model {
 
    	public function savePetugas($kode,$nama,$user_name,$pass_word,$kode_hak_akses)
         {
-                $sql = "insert into akun values ('$kode','$nama','$user_name','$pass_word','$kode_hak_akses')";
+                $sql = "insert into akun values ('$kode','$nama','$user_name',md5('$pass_word'),'$kode_hak_akses')";
 				
 				$query = $this->db->query($sql);
 		}

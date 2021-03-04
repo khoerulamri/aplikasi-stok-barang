@@ -187,7 +187,7 @@
                 <!-- /.col -->
                 <div class="col-md-4">
                  <div class="info-box bg-green">
-                    <span class="info-box-icon"><i class="ion ion-ios-money-outline"></i></span>
+                    <span class="info-box-icon"><i class="fa fa-fw fa-tags"></i></span>
                     <?php 
                         foreach($jumlahBarangTahunIni as $a) {
                           $jumlah_transaksi=$a->jumlah_transaksi;

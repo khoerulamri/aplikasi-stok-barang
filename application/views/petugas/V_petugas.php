@@ -23,27 +23,32 @@
                         <div class="form-group">
                             <label>Kode Petugas *</label>
                             <input required class="form-control" placeholder="Masukan kode petugas" name="kode_petugas"
-                            <?php if($status=='ubah'){echo "value=\"".$kode_petugas."\"" ;} ?>>
+                            <?php if($status=='ubah'){echo "value=\"".$kode_petugas."\"" ;} ?> required>
                         </div>
                         <div class="form-group">
                             <label>Nama Petugas *</label>
                             <input required class="form-control" placeholder="Masukan nama petugas" name="nama_petugas"
-                            <?php if($status=='ubah'){echo "value=\"".$nama_petugas."\"" ;} ?>>
+                            <?php if($status=='ubah'){echo "value=\"".$nama_petugas."\"" ;} ?> required>
                         </div>
                         <div class="form-group">
-                            <label>Username</label>
+                            <label>Username *</label>
                             <input class="form-control" placeholder="Masukan username petugas" name="user_name"
-                            <?php if($status=='ubah'){echo "value=\"".$user_name."\"" ;} ?>>
+                            <?php if($status=='ubah'){echo "value=\"".$user_name."\"" ;} ?> required>
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input class="form-control" placeholder="Masukan password petugas" name="pass_word"
-                            <?php if($status=='ubah'){echo "value=\"".$pass_word."\"" ;} ?>>
+                            <label>Password *</label>
+                            <input class="form-control" placeholder="Masukan password petugas" name="pass_word" type="password" required>
                         </div>
                         <div class="form-group">
-                            <label>Hak Akses</label>
-                            <input class="form-control" placeholder="Masukan Hak Akses" name="kode_hak_akses"
-                            <?php if($status=='ubah'){echo "value=\"".$kode_hak_akses."\"" ;} ?>>
+                            <label>Hak Akses*</label>
+                            <select id="kode_hak_akses" class="form-control" name="kode_hak_akses" required>
+                             <option value=''>-- Pilih Hak Akses --</option>";
+                             <option value='administrator' 
+                             <?php if('administrator'==$kode_hak_akses) echo 'selected';?>>Administrator</option>";
+                             <option value='produksi' <?php if('produksi'==$kode_hak_akses) echo 'selected';?>>Produksi</option>";
+                             <option value='gudang' <?php if('gudang'==$kode_hak_akses) echo 'selected';?>>Gudang</option>";
+                             <option value='penjualan' <?php if('penjualan'==$kode_hak_akses) echo 'selected';?>>Penjualan</option>";
+                            </select>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('petugas');?>" class="btn btn-info pull-right">Kembali</a></div>
                         <div class="col-lg-2"><button type="submit" class="btn btn-success pull-right">Simpan</button></div>

@@ -116,7 +116,7 @@
         if("administrator"==$kode_hak_akses)
         {
         ?>
-        <li class=" <?php if(($menu_active=='petugas')||($menu_active=='barang')||($menu_active=='pelipat')||($menu_active=='customer')||($menu_active=='sumber')||($menu_active=='perusahaan'))
+        <li class=" <?php if(($menu_active=='petugas')||($menu_active=='barang')||($menu_active=='pelipat')||($menu_active=='customer')||($menu_active=='sumber_transaksi')||($menu_active=='perusahaan'))
                                     {
                                         echo 'active';
                                     }?> treeview">
