@@ -64,7 +64,7 @@
                                     foreach ($getAllBarang as $gAC) {
                                         if($status=='ubah' && $kode_barang==$gAC->kode_barang)
                                         {
-                                        echo "<option value=".$gAC->kode_barang." selected>".$gAC->nama_barang."</option>";
+                                        echo "<option value=".$gAC->kode_barang." selected>".$gAC->nama_barang." - ".$gAC->ukuran_barang." - ".$gAC->bahan_barang."</option>";
                                         }
                                         else
                                         {

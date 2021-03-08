@@ -36,7 +36,7 @@ class M_petugas extends CI_Model {
 
    	public function updatePetugas($kodelama,$kodebaru,$nama,$user_name,$pass_word,$kode_hak_akses)
         {
-                $sql = "update akun  set nama_petugas='$nama',user_name='$user_name',pass_word='$pass_word',kode_hak_akses='$kode_hak_akses', kode_petugas='$kodebaru' where kode_petugas='$kodelama'";
+                $sql = "update akun  set nama_petugas='$nama',user_name='$user_name',pass_word=md5('$pass_word'),kode_hak_akses='$kode_hak_akses', kode_petugas='$kodebaru' where kode_petugas='$kodelama'";
 				$query = $this->db->query($sql);
 		}
 

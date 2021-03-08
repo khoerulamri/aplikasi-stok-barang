@@ -5,7 +5,7 @@ class M_laporan_stok_barang extends CI_Model {
         p.kode_perusahaan,
         pe.nama_perusahaan,
         p.kode_barang,
-        p.nama_barang,
+        concat(p.nama_barang,' - ',IFNULL(p.ukuran_barang,''),' - ',IFNULL(p.bahan_barang,'')) as nama_barang,
         IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0) AS qty_produksi,
         IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0)-
         IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
@@ -34,7 +34,7 @@ class M_laporan_stok_barang extends CI_Model {
                         p.kode_perusahaan,
                         pe.nama_perusahaan,
                         p.kode_barang,
-                        p.nama_barang,
+                        concat(p.nama_barang,' - ',IFNULL(p.ukuran_barang,''),' - ',IFNULL(p.bahan_barang,'')) as nama_barang,
                         IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0) AS qty_produksi,
                         IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0)-
                         IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 

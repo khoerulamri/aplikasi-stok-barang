@@ -1,12 +1,12 @@
 <?php 
 class M_barang extends CI_Model {
 	
-	var $table = "(SELECT b.kode_barang,b.nama_barang,b.kode_perusahaan,p.nama_perusahaan 
+	var $table = "(SELECT b.kode_barang,b.nama_barang,b.ukuran_barang,b.bahan_barang,b.kode_perusahaan,p.nama_perusahaan 
                     FROM barang b 
                     LEFT JOIN perusahaan p ON b.kode_perusahaan=p.kode_perusahaan
                     ) tabel"; //nama tabel dari database
-    var $column_order = array(null,null,  'kode_barang','nama_barang','nama_perusahaan'); //field yang ada di table user
-    var $column_search = array('kode_barang','nama_barang','nama_perusahaan');  //field yang diizin untuk pencarian 
+    var $column_order = array(null,null,  'kode_barang','nama_barang','ukuran_barang','bahan_barang','nama_perusahaan'); //field yang ada di table user
+    var $column_search = array('kode_barang','nama_barang','ukuran_barang','bahan_barang','nama_perusahaan');  //field yang diizin untuk pencarian 
     var $order = array('nama_barang' => 'asc'); // default order 
 
 	public function __construct()
@@ -30,16 +30,16 @@ class M_barang extends CI_Model {
 		}
 
 
-   	public function saveBarang($kode,$nama,$kode_perusahaan)
+   	public function saveBarang($kode,$nama,$ukuran_barang,$bahan_barang,$kode_perusahaan)
         {
-                $sql = "insert into barang values ('$kode','$nama','$kode_perusahaan')";
+                $sql = "insert into barang values ('$kode','$nama','$ukuran_barang','$bahan_barang','$kode_perusahaan')";
 				
 				$query = $this->db->query($sql);
 		}
 
-   	public function updateBarang($kodelama,$kodebaru,$nama,$kode_perusahaan)
+   	public function updateBarang($kodelama,$kodebaru,$nama,$ukuran_barang,$bahan_barang,$kode_perusahaan)
         {
-                $sql = "update barang set nama_barang='$nama', kode_barang='$kodebaru', kode_perusahaan='$kode_perusahaan' where kode_barang='$kodelama'";
+                $sql = "update barang set nama_barang='$nama',ukuran_barang='$ukuran_barang',bahan_barang='$bahan_barang', kode_barang='$kodebaru', kode_perusahaan='$kode_perusahaan' where kode_barang='$kodelama'";
 				$query = $this->db->query($sql);
 		}
 
@@ -52,7 +52,7 @@ class M_barang extends CI_Model {
 
    	public function getBarangAll()
         {
-                $sql = "SELECT b.kode_barang,b.nama_barang,b.kode_perusahaan,p.nama_perusahaan 
+                $sql = "SELECT b.kode_barang,b.nama_barang,b.ukuran_barang,b.bahan_barang,b.kode_perusahaan,p.nama_perusahaan 
                     FROM barang b 
                     LEFT JOIN perusahaan p ON b.kode_perusahaan=p.kode_perusahaan";
 				
@@ -63,7 +63,7 @@ class M_barang extends CI_Model {
 
 	public function getBarangByKode($kodebarang)
         {
-                $sql = "SELECT b.kode_barang,b.nama_barang,b.kode_perusahaan,p.nama_perusahaan 
+                $sql = "SELECT b.kode_barang,b.nama_barang,b.ukuran_barang,b.bahan_barang,b.kode_perusahaan,p.nama_perusahaan 
                     FROM barang b 
                     LEFT JOIN perusahaan p ON b.kode_perusahaan=p.kode_perusahaan where kode_barang='$kodebarang'";
 				

@@ -14,6 +14,8 @@
                         foreach($barang as $c){
                             $kode_barang=$c->kode_barang;
                             $nama_barang=$c->nama_barang;
+                            $ukuran_barang=$c->ukuran_barang;
+                            $bahan_barang=$c->bahan_barang;
                             $kode_perusahaan=$c->kode_perusahaan;
                         }
                         echo base_url('barang/simpanubah/'.urlencode($kode_barang)); };?>" method="post">
@@ -27,6 +29,16 @@
                             <label>Nama Barang *</label>
                             <input required class="form-control" placeholder="Masukan nama barang" name="nama_barang"
                             <?php if($status=='ubah'){echo "value=\"".$nama_barang."\"" ;} ?>>
+                        </div>
+                        <div class="form-group">
+                            <label>Ukuran *</label>
+                            <input required class="form-control" placeholder="Masukan Ukuran barang" name="ukuran_barang"
+                            <?php if($status=='ubah'){echo "value=\"".$ukuran_barang."\"" ;} ?>>
+                        </div>
+                        <div class="form-group">
+                            <label>Bahan *</label>
+                            <input required class="form-control" placeholder="Masukan Bahan barang" name="bahan_barang"
+                            <?php if($status=='ubah'){echo "value=\"".$bahan_barang."\"" ;} ?>>
                         </div>
                          <div class="form-group">
                             <label>Perusahaan *</label>

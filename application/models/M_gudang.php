@@ -9,7 +9,7 @@ class M_gudang extends CI_Model {
               ,p.kode_petugas
               ,a.nama_petugas
               ,p.kode_barang
-              ,b.nama_barang
+              ,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barang
               ,DATE_FORMAT(g.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil
               ,DATE_FORMAT(g.tgl_serahkan,_utf8'%d %b %y') AS tgl_serahkan_tampil
                ,pe.nama_pelipat
@@ -81,7 +81,7 @@ class M_gudang extends CI_Model {
               ,p.kode_petugas
               ,a.nama_petugas
               ,p.kode_barang
-              ,b.nama_barang
+              ,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barang
               ,DATE_FORMAT(g.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil
               ,DATE_FORMAT(g.tgl_serahkan,_utf8'%d %b %y') AS tgl_serahkan_tampil
                ,pe.nama_pelipat
@@ -110,7 +110,7 @@ class M_gudang extends CI_Model {
               ,p.kode_petugas
               ,a.nama_petugas
               ,p.kode_barang
-              ,b.nama_barang
+              ,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barang
               ,DATE_FORMAT(g.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil
               ,DATE_FORMAT(g.tgl_serahkan,_utf8'%d %b %y') AS tgl_serahkan_tampil
                ,pe.nama_pelipat
@@ -212,10 +212,10 @@ class M_gudang extends CI_Model {
   public function get_data_produksi_select($searchTerm=""){
 
       $sql = "SELECT id_transaksi_produksi,tgl_input,tgl_produksi,p.kode_petugas,a.nama_petugas, nama_sumber_transaksi,
-                  p.kode_barang,b.nama_barang, p.qty,p.keterangan,
+                  p.kode_barang,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barangs, p.qty,p.keterangan,
                   DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
                   DATE_FORMAT(p.tgl_produksi,_utf8'%d %b %y') AS tgl_produksi_tampil
-                  ,concat((DATE_FORMAT(p.tgl_produksi,_utf8'%d %b %y')),' ',nama_sumber_transaksi,' ',nama_barang) as gabung
+                  ,concat((DATE_FORMAT(p.tgl_produksi,_utf8'%d %b %y')),' - ',nama_sumber_transaksi,' - ',b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as gabung
                    FROM produksi p
                   LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
                   LEFT JOIN sumber_transaksi st ON st.kode_sumber_transaksi=p.kode_sumber_transaksi

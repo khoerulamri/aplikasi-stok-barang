@@ -2,7 +2,7 @@
 class M_penjualan extends CI_Model {
 	
 	var $table = "(SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
-p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+p.kode_barang,concat(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
 DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
 DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
 c.nama_customer
@@ -74,7 +74,7 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
    	public function getPenjualanAll()
         {
                 $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
-                p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+                p.kode_barang,concat(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
                 DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
                 DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
                 c.nama_customer,p.status_transaksi
@@ -92,7 +92,7 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 	public function getPenjualanByKode($id_transaksi_penjualan)
         {
                 $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
-                        p.kode_barang,b.nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+                        p.kode_barang,concat(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
                         DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
                         DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
                         c.nama_customer,p.status_transaksi,p.kode_customer
@@ -171,7 +171,7 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
    public function get_data_barang_select($searchTerm=""){
 
-      $sql = "select * from barang where kode_barang like '%".$searchTerm."%' or nama_barang like '%".$searchTerm."%' limit 10;";
+      $sql = "select * from barang where kode_barang like '%".$searchTerm."%' or nama_barang like '%".$searchTerm."%' or ukuran_barang like '%".$searchTerm."%' or bahan_barang like '%".$searchTerm."%' limit 10;";
         
       $query = $this->db->query($sql);
 
@@ -180,7 +180,7 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
       // Initialize Array with fetched data
         $data = array();
         foreach($hasil as $h){
-            $data[] = array("id"=>$h['kode_barang'], "text"=>$h['nama_barang']);
+            $data[] = array("id"=>$h['kode_barang'], "text"=>$h['nama_barang'].' - '.$h['ukuran_barang'].' - '.$h['bahan_barang']);
         }
         return $data;
 

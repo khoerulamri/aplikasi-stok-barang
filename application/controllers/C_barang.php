@@ -106,6 +106,8 @@ class C_barang extends CI_Controller {
 			
 			$kode_barangbaru = $this->input->post('kode_barang');
 			$nama_barang = $this->input->post('nama_barang');
+			$ukuran_barang = $this->input->post('ukuran_barang');
+			$bahan_barang = $this->input->post('bahan_barang');
 
 			$kode_perusahaan = $this->input->post('kode_perusahaan');
 
@@ -130,7 +132,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode barang unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$kode_perusahaan);
+				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan);
 				$data['kode_barang']=$kode_barangbaru;
 				$this->load->view('barang/V_barang_ubah',$data);
 			}
@@ -152,6 +154,9 @@ class C_barang extends CI_Controller {
 			$kode_barang = $this->input->post('kode_barang');
 			$nama_barang = $this->input->post('nama_barang');
 
+			$ukuran_barang = $this->input->post('ukuran_barang');
+			$bahan_barang = $this->input->post('bahan_barang');
+
 			$kode_perusahaan = $this->input->post('kode_perusahaan');
 
 			$hasilcheck = $this->M_barang->checkBarang($kode_barang);
@@ -166,7 +171,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode pj unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->saveBarang($kode_barang,$nama_barang,$kode_perusahaan);
+				$this->M_barang->saveBarang($kode_barang,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan);
 				$data['kode_barang']=$kode_barang;
 				$this->load->view('barang/V_barang_simpan',$data);
 			}
@@ -217,6 +222,8 @@ class C_barang extends CI_Controller {
             		  ';
             $row[] = $field->kode_barang;
             $row[] = $field->nama_barang;
+            $row[] = $field->ukuran_barang;
+            $row[] = $field->bahan_barang;
             $row[] = $field->nama_perusahaan;
             $data[] = $row;
         }

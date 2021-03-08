@@ -12,6 +12,8 @@
     						<th>Action</th>
     						<th>Kode Barang</th>
     						<th>Nama Barang</th>
+                            <th>Ukuran Barang</th>
+                            <th>Bahan Barang</th>
                             <th>Perusahaan</th>
                         </tr>
                     </thead>
