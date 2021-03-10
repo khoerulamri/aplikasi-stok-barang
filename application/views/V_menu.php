@@ -54,7 +54,7 @@
         $kode_hak_akses = $this->session->userdata('kode_hak_akses');
          ?>
 
-        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='penjualan'))
+        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='gudang_produksi')||($menu_active=='penjualan'))
                                     {
                                         echo 'active';
                                     }?> treeview" >

@@ -56,6 +56,16 @@ class M_gudang extends CI_Model {
           $query = $this->db->query($sql);
 		}
 
+    public function saveGudangGP($tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi,$kode_barang,$kode_sumber_transaksi)
+        {
+          $sql = "insert into produksi (tgl_input,kode_petugas,kode_barang,qty,tgl_produksi,kode_sumber_transaksi,keterangan) values (now(),'$kode_petugas','$kode_barang','$qty','$tgl_serahkan','$kode_sumber_transaksi','$keterangan')"; 
+          $query = $this->db->query($sql); 
+
+          $sql = "insert into gudang (tgl_input,tgl_serahkan,kode_petugas,kode_pelipat,qty,keterangan,id_transaksi_produksi) values (now(),'$tgl_serahkan','$kode_petugas','$kode_pelipat','$qty','$keterangan',(SELECT LAST_INSERT_ID()))"; 
+          $query = $this->db->query($sql);
+
+    }
+
    	public function updateGudang($kodelama,$kodebaru,$tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi)
         {
                 $sql = "update gudang set tgl_serahkan='$tgl_serahkan',kode_petugas='$kode_petugas', kode_pelipat='$kode_pelipat', qty='$qty', keterangan='$keterangan', id_transaksi_produksi='$id_transaksi_produksi' where id_transaksi_gudang='$kodelama'";

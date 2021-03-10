@@ -317,11 +317,17 @@
             }
             ],
             "dom": 'lBfrtip',
-            "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
+            "buttons": ['copy', 'print', 'csv', 'excel', 'pdf',
             {
                 text: 'Tambah Data Gudang',
                 action: function ( e, dt, node, config ) {
                      window.location = '<?php echo base_url('gudang/tambah');?>';
+                }
+            },
+            {
+                text: 'Tambah Data Gudang Produksi',
+                action: function ( e, dt, node, config ) {
+                     window.location = '<?php echo base_url('gudang/gptambah');?>';
                 }
             }],
             "scrollX": true,

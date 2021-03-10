@@ -27,6 +27,7 @@ class C_gudang extends CI_Controller {
 		  $this->load->model('M_gudang');
 		  $this->load->model('M_barang');
 		  $this->load->model('M_pelipat');
+		  $this->load->model('M_sumber_transaksi');
 		  $this->load->helper('date');
 
     }
@@ -158,6 +159,38 @@ class C_gudang extends CI_Controller {
 
 	}
 
+	public function simpangp()
+	{
+		if($this->session->is_logged){
+			$user_id = $this->session->userid;
+			$data['menu_active'] = 'gudang';
+			
+			$data['status'] = 'tambah';
+
+			$tgl_input = $this->input->post('tgl_input');
+			$tgl_serahkan = $this->input->post('tgl_serahkan');
+			$id_transaksi_produksi = $this->input->post('id_transaksi_produksi');
+			$kode_petugas = $this->session->userdata('kode_petugas');
+			$kode_pelipat = $this->input->post('kode_pelipat');
+			$qty = $this->input->post('qty');
+			$keterangan = $this->input->post('keterangan');
+			
+			$kode_barang = $this->input->post('kode_barang');
+			$kode_sumber_transaksi = $this->input->post('kode_sumber_transaksi');
+			
+
+			$tgl_serahkan=date('Y-m-d',strtotime($tgl_serahkan));
+
+			$this->M_gudang->saveGudangGP($tgl_input,$tgl_serahkan,$kode_petugas,$kode_pelipat,$qty,$keterangan,$id_transaksi_produksi,$kode_barang,$kode_sumber_transaksi);
+			$data['id_transaksi_gudang']=$id_transaksi_gudang;
+			$this->load->view('gudang/V_gudang_simpan',$data);
+
+		}else{
+			redirect('index');
+		}
+
+	}
+
 	public function tambah()
 	{
 		if($this->session->is_logged){
@@ -178,6 +211,36 @@ class C_gudang extends CI_Controller {
 			$this->load->view('V_header',$data);
 			$this->load->view('V_menu',$data);
 			$this->load->view('gudang/V_gudang',$data);
+			$this->load->view('V_footer',$data);
+
+		}else{
+			redirect('index');
+		}
+
+	}
+
+	public function gptambah()
+	{
+		if($this->session->is_logged){
+			$user_id = $this->session->userid;
+			$data['menu_active'] = 'gudang';
+
+
+			$var = $this->session->userdata;
+			$data['nama_petugas']=$var['nama_petugas'];
+			$data['kode_hak_akses']=$var['kode_hak_akses'];
+			
+			
+			$data['status']='tambah';
+
+			$data['getAllProduksi'] = $this->M_produksi->getProduksiAll();
+			$data['getAllBarang'] = $this->M_barang->getBarangAll();
+			$data['getAllsumber_transaksi'] = $this->M_sumber_transaksi->getSumberTransaksiAll();
+			$data['getAllPelipat'] = $this->M_pelipat->getPelipatAll();
+			
+			$this->load->view('V_header',$data);
+			$this->load->view('V_menu',$data);
+			$this->load->view('gudang/V_gudang_produksi',$data);
 			$this->load->view('V_footer',$data);
 
 		}else{

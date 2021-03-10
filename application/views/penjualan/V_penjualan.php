@@ -96,16 +96,35 @@
                         </div>
                         <div class="form-group">
                             <label>Jumlah *</label>                                          
-                            <input class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty" required>
+                            <input id="jumlah" class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty" required onchange="hitungBayar2(this.value)">
                         </div>
 						<div class="form-group">
                             <label>Harga *</label>                                          
-                            <input class="form-control" placeholder="Masukan harga barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$harga_barang."\"" ;} ?>  name="harga_barang" required>
+                            <input id="harga" class="form-control" placeholder="Masukan harga barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$harga_barang."\"" ;} ?>  name="harga_barang" required onchange="hitungBayar(this.value)">
                         </div>
                         <div class="form-group">
                             <label>Jumlah Bayar *</label>                                          
-                            <input class="form-control" placeholder="Masukan jumlah bayar"  type="number" <?php if($status=='ubah'){echo "value=\"".$jumlah_bayar."\"" ;} ?>  name="jumlah_bayar" required>
+                            <input id="total_bayar" class="form-control" placeholder="Masukan jumlah bayar"  type="number" <?php if($status=='ubah'){echo "value=\"".$jumlah_bayar."\"" ;} ?>  name="jumlah_bayar" required>
                         </div>
+                        <script>
+                            function hitungBayar(val) {
+                                var jumlahnya = $('#jumlah').val();
+                                var tot_price = jumlahnya*val;
+
+                                /*display the result*/
+                                var bayar = document.getElementById('total_bayar');
+                                bayar.value = tot_price;
+                            }
+                            function hitungBayar2(val) {
+                                var harganya = $('#harga').val();
+                                var tot_price = harganya*val;
+
+                                /*display the result*/
+                                var bayar = document.getElementById('total_bayar');
+                                bayar.value = tot_price;
+                            }
+                        </script>
+
                         <div class="form-group">
                             <label>Status Transaksi *</label>
                             <select  id="status_transaksi" class="form-control" name="status_transaksi" required>
