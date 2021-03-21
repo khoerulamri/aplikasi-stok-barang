@@ -191,6 +191,83 @@ class C_penjualan extends CI_Controller {
 
 	}
 
+	public function tambah_cart()
+	{
+		if($this->session->is_logged){
+			$user_id = $this->session->userid;
+			$data['menu_active'] = 'penjualan';
+
+
+			$var = $this->session->userdata;
+			$data['nama_petugas']=$var['nama_petugas'];
+			$data['kode_hak_akses']=$var['kode_hak_akses'];
+			
+			
+			$data['status']='tambah';
+
+			$data['getAllBarang'] = $this->M_barang->getBarangAll();
+			$data['getAllCustomer'] = $this->M_customer->getCustomerAll();
+			
+			$this->load->view('V_header',$data);
+			$this->load->view('V_menu',$data);
+			$this->load->view('penjualan/V_penjualan',$data);
+			$this->load->view('V_footer',$data);
+
+		}else{
+			redirect('index');
+		}
+
+	}
+
+
+	function add_to_cart(){ 
+		$data = array(
+			'id' => $this->input->post('product_id'), 
+			'name' => $this->input->post('product_name'), 
+			'price' => $this->input->post('product_price'), 
+			'qty' => $this->input->post('quantity'), 
+		);
+		$this->cart->insert($data);
+		echo $this->show_cart(); 
+	}
+
+	function show_cart(){ 
+		$output = '';
+		$no = 0;
+		foreach ($this->cart->contents() as $items) {
+			$no++;
+			$output .='
+				<tr>
+					<td>'.$items['name'].'</td>
+					<td>'.number_format($items['price']).'</td>
+					<td>'.$items['qty'].'</td>
+					<td>'.number_format($items['subtotal']).'</td>
+					<td><button type="button" id="'.$items['rowid'].'" class="romove_cart btn btn-danger btn-sm">Cancel</button></td>
+				</tr>
+			';
+		}
+		$output .= '
+			<tr>
+				<th colspan="3">Total</th>
+				<th colspan="2">'.'Rp '.number_format($this->cart->total()).'</th>
+			</tr>
+		';
+		return $output;
+	}
+
+	function load_cart(){ 
+		echo $this->show_cart();
+	}
+
+	function delete_cart(){ 
+		$data = array(
+			'rowid' => $this->input->post('row_id'), 
+			'qty' => 0, 
+		);
+		$this->cart->update($data);
+		echo $this->show_cart();
+	}
+
 	function get_data_penjualan()
     {
         $list = $this->M_penjualan->get_datatables();
