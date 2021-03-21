@@ -23,7 +23,7 @@ date_default_timezone_set('Asia/Jakarta');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/aplikasi-stok-barang/';
+$config['base_url'] = 'http://localhost/stok_release/';
 
 /*
 |--------------------------------------------------------------------------

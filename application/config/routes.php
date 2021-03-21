@@ -96,7 +96,14 @@ $route['produksi'] = 'C_produksi/index';
 $route['produksi/(:any)'] = 'C_produksi/$1';
 $route['produksi/(:any)/(:any)'] = 'C_produksi/$1/$2';
 
+$route['gudang'] = 'C_gudang/index';
+$route['gudang/(:any)'] = 'C_gudang/$1';
+$route['gudang/(:any)/(:any)'] = 'C_gudang/$1/$2';
 
-$route['laporan'] = 'C_laporan/index';
-$route['laporan/(:any)'] = 'C_laporan/$1';
-$route['laporan/(:any)/(:any)'] = 'C_laporan/$1/$2';
+$route['penjualan'] = 'C_penjualan/index';
+$route['penjualan/(:any)'] = 'C_penjualan/$1';
+$route['penjualan/(:any)/(:any)'] = 'C_penjualan/$1/$2';
+
+$route['laporan'] = 'C_laporan_stok_barang/index';
+$route['laporan/(:any)'] = 'C_laporan_stok_barang/$1';
+$route['laporan/(:any)/(:any)'] = 'C_laporan_stok_barang/$1/$2';
