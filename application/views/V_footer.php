@@ -60,7 +60,6 @@
     <script src="<?php echo base_url('assets/datatables-plugins/dataTables.buttons.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.flash.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/jszip.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/datatables-plugins/pdfmake.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/vfs_fonts.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.html5.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.print.min.js'); ?>"></script>
@@ -359,7 +358,7 @@
             {
                 text: 'Tambah Data Penjualan',
                 action: function ( e, dt, node, config ) {
-                     window.location = '<?php echo base_url('penjualan/tambah');?>';
+                     window.location = '<?php echo base_url('penjualan/tambah_cart');?>';
                 }
             }],
             "scrollX": true,
@@ -631,6 +630,43 @@
       autoclose: true,
       format: 'dd-mm-yyyy'
      })
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.add_cart').click(function(){
+            var product_id    = $('#barang').val();
+            var $class_barang = $('.class_barang');
+            var product_name  = $class_barang.select2('data')[0]['text']    ;
+            product_name  = product_name.replace(/[+]/g,'-Plus');
+            var product_price = $('#harga').val();
+            var quantity      = $('#jumlah').val();
+            $.ajax({
+                url : "<?php echo site_url('penjualan/add_to_cart');?>",
+                method : "POST",
+                data : {product_id: product_id, product_name: product_name, product_price: product_price, quantity: quantity},
+                success: function(data){
+                    $('#detail_cart').html(data);
+                }
+            });
+        });
+
+        
+        $('#detail_cart').load("<?php echo site_url('penjualan/load_cart');?>");
+
+        
+        $(document).on('click','.romove_cart',function(){
+            var row_id=$(this).attr("id"); 
+            $.ajax({
+                url : "<?php echo site_url('penjualan/delete_cart');?>",
+                method : "POST",
+                data : {row_id : row_id},
+                success :function(data){
+                    $('#detail_cart').html(data);
+                }
+            });
+        });
+    });
 </script>
 
 </body>

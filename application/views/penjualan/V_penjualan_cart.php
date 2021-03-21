@@ -9,7 +9,7 @@
                 <div class="col-lg-6">
                     <form role="form" action="<?php 
                     if($status=='tambah')
-                    { echo base_url('penjualan/simpan'); }
+                    { echo base_url('penjualan/simpan_cart'); }
                     else 
                     { 
                         foreach($penjualan as $c){
@@ -41,7 +41,7 @@
                         {
                             $tgl_transaksi=date('d-m-Y',strtotime($tgl_transaksi));
                         }
-                        echo base_url('penjualan/simpanubah/'.urlencode($id_transaksi_penjualan)); };?>" method="post">
+                        echo base_url('penjualan/simpanubah_cart/'.urlencode($id_transaksi_penjualan)); };?>" method="post">
                         <div class="form-group">*) Wajib Terisi</div>
                         <div class="form-group">
                             <!-- <label>id_transaksi_penjualan</label> -->
@@ -77,9 +77,9 @@
                                     ?>
                                 </select>
                         </div>
-                        <div class="form-group">
-                            <label>Barang *</label>
-                            <select  id="barang" class="form-control" name="kode_barang" required>
+                         <div class="form-group">
+                            <label>Barang</label>
+                            <select  id="barang" class="class_barang form-control" name="kode_barang">
                                 <?php 
                                     foreach ($getAllBarang as $gAC) {
                                         if($status=='ubah' && $kode_barang==$gAC->kode_barang)
@@ -95,36 +95,37 @@
                                 </select>
                         </div>
                         <div class="form-group">
-                            <label>Jumlah *</label>                                          
-                            <input id="jumlah" class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty" required onchange="hitungBayar2(this.value)">
-                        </div>
-						<div class="form-group">
-                            <label>Harga *</label>                                          
-                            <input id="harga" class="form-control" placeholder="Masukan harga barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$harga_barang."\"" ;} ?>  name="harga_barang" required onchange="hitungBayar(this.value)">
+                            <label>Jumlah</label>                                          
+                            <input id="jumlah" class="form-control" placeholder="Masukan jumlah barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$qty."\"" ;} ?>  name="qty">
                         </div>
                         <div class="form-group">
-                            <label>Jumlah Bayar *</label>                                          
-                            <input id="total_bayar" class="form-control" placeholder="Masukan jumlah bayar"  type="number" <?php if($status=='ubah'){echo "value=\"".$jumlah_bayar."\"" ;} ?>  name="jumlah_bayar" required>
+                            <label>Harga</label>                                          
+                            <input id="harga" class="form-control" placeholder="Masukan harga barang"  type="number" <?php if($status=='ubah'){echo "value=\"".$harga_barang."\"" ;} ?>  name="harga_barang">
                         </div>
-                        <script>
-                            function hitungBayar(val) {
-                                var jumlahnya = $('#jumlah').val();
-                                var tot_price = jumlahnya*val;
 
-                                /*display the result*/
-                                var bayar = document.getElementById('total_bayar');
-                                bayar.value = tot_price;
-                            }
-                            function hitungBayar2(val) {
-                                var harganya = $('#harga').val();
-                                var tot_price = harganya*val;
+                        <div class="form-group">
+                             <button class="add_cart btn btn-success btn-block" type="button">Tambahkan ke Daftar</button>
+                        </div>
 
-                                /*display the result*/
-                                var bayar = document.getElementById('total_bayar');
-                                bayar.value = tot_price;
-                            }
-                        </script>
+                         <div class="form-group">
+                               <h4>Daftar Belanjaan</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Barang</th>
+                                            <th>Harga</th>
+                                            <th>Qty</th>
+                                            <th>Total</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detail_cart">
 
+                                    </tbody>
+                                    
+                                </table>
+                        </div>  
                         <div class="form-group">
                             <label>Status Transaksi *</label>
                             <select  id="status_transaksi" class="form-control" name="status_transaksi" required>
@@ -142,10 +143,15 @@
                          <div class="form-group">
                             <label>Keterangan </label>                                          
                             <input class="form-control" placeholder="Masukan keterangan tambahan"   <?php if($status=='ubah'){echo "value=\"".$keterangan."\"" ;} ?>  name="keterangan" >
-                        </div>							
+                        </div>					
                        <div class="pull-right"><a href="<?php echo base_url('penjualan');?>" class="btn btn-info">Kembali</a>
                         <button type="submit" class="btn btn-success">Simpan</button></div>
 					</form>
+                </div>
+                <div class="col-lg-6">
+
+                       
+                        
                 </div>
             </div>
            </div>

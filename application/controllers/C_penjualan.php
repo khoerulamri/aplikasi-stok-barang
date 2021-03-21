@@ -98,6 +98,48 @@ class C_penjualan extends CI_Controller {
 
 	}
 
+	public function ubah_cart($id_transaksi_penjualan)
+		{
+			if($this->session->is_logged){
+				$user_id = $this->session->userid;
+				$data['menu_active'] = 'penjualan';
+
+				$var = $this->session->userdata;
+				$data['nama_petugas']=$var['nama_petugas'];
+				$data['kode_hak_akses']=$var['kode_hak_akses'];
+				
+				$data['getAllBarang'] = $this->M_barang->getBarangAll();
+				$data['getAllCustomer'] = $this->M_customer->getCustomerAll();
+
+				$id_transaksi_penjualan=urldecode($id_transaksi_penjualan);
+
+				$data['penjualan']=$this->M_penjualan->getPenjualanByKodeCart($id_transaksi_penjualan);
+				$detailpenjualan=$this->M_penjualan->getPenjualanDetailByKodeCart($id_transaksi_penjualan);
+				$this->cart->destroy();
+
+				foreach ($detailpenjualan as $gdp) {
+				 		$belanjaan = array(
+							'id' => $gdp->id, 
+							'name' => $gdp->name, 
+							'price' => $gdp->price, 
+							'qty' => $gdp->qty, 
+						);
+						$this->cart->insert($belanjaan);
+				 }
+
+				$data['status']='ubah';
+				
+				$this->load->view('V_header',$data);
+				$this->load->view('V_menu',$data);
+				$this->load->view('penjualan/V_penjualan_cart',$data);
+				$this->load->view('V_footer',$data);
+
+			}else{
+				redirect('index');
+			}
+
+		}
+
 	public function simpanubah($id_transaksi_penjualan)
 	{
 		if($this->session->is_logged){
@@ -132,6 +174,40 @@ class C_penjualan extends CI_Controller {
 
 	}
 
+	public function simpanubah_cart($id_transaksi_penjualan)
+	{
+		if($this->session->is_logged){
+			$user_id = $this->session->userid;
+			$data['menu_active'] = 'penjualan';
+			$data['status']='ubah';
+
+			$id_transaksi_penjualanbaru = $this->input->post('id_transaksi_penjualan');
+			$tgl_input = $this->input->post('tgl_input');
+			$tgl_transaksi = $this->input->post('tgl_transaksi');
+			$kode_petugas = $this->session->userdata('kode_petugas');
+			$kode_customer = $this->input->post('kode_customer');
+			
+			$jumlah_bayar = $this->cart->total();
+			$status_transaksi = $this->input->post('status_transaksi');
+			$keterangan = $this->input->post('keterangan');
+
+			$tgl_input=date('Y-m-d',strtotime($tgl_input));
+			$tgl_transaksi=date('Y-m-d',strtotime($tgl_transaksi));
+			
+			$id_transaksi_penjualan=urldecode($id_transaksi_penjualan);
+
+			$belanjaan = $this->cart->contents();
+
+			$this->M_penjualan->updatePenjualanCart($id_transaksi_penjualan,$id_transaksi_penjualanbaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan,$belanjaan);
+			$data['id_transaksi_penjualan']=$id_transaksi_penjualanbaru;
+			$this->load->view('penjualan/V_penjualan_ubah',$data);
+			
+		}else{
+			redirect('index');
+		}
+
+	}
+
 	public function simpan()
 	{
 		if($this->session->is_logged){
@@ -154,6 +230,36 @@ class C_penjualan extends CI_Controller {
 
 
 			$this->M_penjualan->savePenjualan($tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan);
+			$data['id_transaksi_penjualan']=$id_transaksi_penjualan;
+			$this->load->view('penjualan/V_penjualan_simpan',$data);
+
+		}else{
+			redirect('index');
+		}
+
+	}
+
+	public function simpan_cart()
+	{
+		if($this->session->is_logged){
+			$user_id = $this->session->userid;
+			$data['menu_active'] = 'penjualan';
+			
+			$data['status'] = 'tambah';
+
+			$tgl_transaksi = $this->input->post('tgl_transaksi');
+			$kode_petugas = $this->session->userdata('kode_petugas');
+			$kode_customer = $this->input->post('kode_customer');
+			$jumlah_bayar = $this->cart->total();
+			$status_transaksi = $this->input->post('status_transaksi');
+			$keterangan = $this->input->post('keterangan');
+
+			$tgl_transaksi=date('Y-m-d',strtotime($tgl_transaksi));
+
+
+			$belanjaan = $this->cart->contents();
+
+			$this->M_penjualan->savePenjualanChart($tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan,$belanjaan);
 			$data['id_transaksi_penjualan']=$id_transaksi_penjualan;
 			$this->load->view('penjualan/V_penjualan_simpan',$data);
 
@@ -208,9 +314,11 @@ class C_penjualan extends CI_Controller {
 			$data['getAllBarang'] = $this->M_barang->getBarangAll();
 			$data['getAllCustomer'] = $this->M_customer->getCustomerAll();
 			
+			$this->cart->destroy();
+
 			$this->load->view('V_header',$data);
 			$this->load->view('V_menu',$data);
-			$this->load->view('penjualan/V_penjualan',$data);
+			$this->load->view('penjualan/V_penjualan_cart',$data);
 			$this->load->view('V_footer',$data);
 
 		}else{
@@ -238,6 +346,7 @@ class C_penjualan extends CI_Controller {
 			$no++;
 			$output .='
 				<tr>
+					<td>'.$no.'</td>
 					<td>'.$items['name'].'</td>
 					<td>'.number_format($items['price']).'</td>
 					<td>'.$items['qty'].'</td>
@@ -277,7 +386,7 @@ class C_penjualan extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = '<a href="'.base_url('penjualan/ubah/').urlencode($field->id_transaksi_penjualan).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+            $row[] = '<a href="'.base_url('penjualan/ubah_cart/').urlencode($field->id_transaksi_penjualan).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('penjualan/hapus/').urlencode($field->id_transaksi_penjualan).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
             $row[] = $field->tgl_input;
@@ -285,8 +394,6 @@ class C_penjualan extends CI_Controller {
             $row[] = $field->nama_petugas;
             $row[] = $field->nama_customer;
             $row[] = $field->nama_barang;
-            $row[] = $field->qty;
-            $row[] = $field->harga_barang;
             $row[] = $field->jumlah_bayar;
             $row[] = $field->status_transaksi;
             $row[] = $field->keterangan;

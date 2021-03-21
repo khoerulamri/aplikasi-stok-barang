@@ -1,19 +1,20 @@
 <?php 
 class M_penjualan extends CI_Model {
 	
-	var $table = "(SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
-p.kode_barang,concat(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+	var $table = "(SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,FORMAT(p.jumlah_bayar,0) as jumlah_bayar,p.status_transaksi,p.keterangan,
 DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
 DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
-c.nama_customer
+c.nama_customer,
+(SELECT GROUP_CONCAT(CONCAT(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,''),' - ',pd.qty,' - ',pd.harga_barang,'<br>')) FROM penjualan_detail pd 
+LEFT JOIN barang b ON pd.kode_barang=b.kode_barang
+WHERE pd.id_transaksi_penjualan=p.id_transaksi_penjualan) AS nama_barang
 FROM penjualan p
 LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
 LEFT JOIN customer c ON c.kode_customer=p.kode_customer
-LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 ) tabel"; //nama tabel dari database
 
-    var $column_order = array(null,null,'tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','qty','harga_barang','jumlah_bayar','status_transaksi','keterangan'); //field yang ada di table 
-    var $column_search = array('tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','qty','harga_barang','jumlah_bayar','status_transaksi','keterangan');  //field yang diizin untuk pencarian 
+    var $column_order = array(null,null,'tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','jumlah_bayar','status_transaksi','keterangan'); //field yang ada di table 
+    var $column_search = array('tgl_input_tampil','tgl_transaksi_tampil','nama_petugas','nama_customer','nama_barang','jumlah_bayar','status_transaksi','keterangan');  //field yang diizin untuk pencarian 
     var $order = array('tgl_input' => 'desc'); // default order 
 
 	public function __construct()
@@ -44,7 +45,27 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
           $query = $this->db->query($sql);
 		}
 
-   	public function updatePenjualan($kodelama,$kodebaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan)
+   	
+    public function savePenjualanChart($tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan,$belanjaan)
+        {
+       
+          $sql = "insert into penjualan (tgl_input, tgl_transaksi, kode_petugas, kode_customer,   jumlah_bayar, status_transaksi, keterangan) values (now(), '$tgl_transaksi', '$kode_petugas', '$kode_customer', '$jumlah_bayar', '$status_transaksi', '$keterangan')";
+          
+          $query = $this->db->query($sql);
+
+          $id_transaksi=  $this->db->insert_id(); 
+
+          foreach ($belanjaan as $items) {
+
+            $sql = "INSERT INTO penjualan_detail (id_transaksi_penjualan,kode_barang,qty,harga_barang)
+                VALUES ('".$id_transaksi."','".$items['id']."','".$items['qty']."','".$items['price']."')";
+          
+           $query = $this->db->query($sql);
+        }      
+          
+        }
+
+    public function updatePenjualan($kodelama,$kodebaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan)
         {
                 $sql = "update penjualan set 
                 tgl_transaksi='$tgl_transaksi',
@@ -63,25 +84,58 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 			
 		}
 
+   public function updatePenjualanCart($kodelama,$kodebaru,$tgl_input, $tgl_transaksi, $kode_petugas, $kode_customer, $kode_barang, $qty, $harga_barang, $jumlah_bayar, $status_transaksi, $keterangan,$belanjaan)
+        {
+                $sql = "update penjualan set 
+                tgl_transaksi='$tgl_transaksi',
+                kode_petugas='$kode_petugas', 
+                kode_customer='$kode_customer', 
+                jumlah_bayar='$jumlah_bayar', 
+                status_transaksi='$status_transaksi', 
+                keterangan='$keterangan' 
+                where 
+                id_transaksi_penjualan='$kodelama'";
+                $query = $this->db->query($sql);
+
+                //hapus data detail lama
+                $sql = "delete from penjualan_detail where id_transaksi_penjualan='$kodelama'";
+                $query = $this->db->query($sql);
+
+                foreach ($belanjaan as $items) {
+
+                    $sql = "INSERT INTO penjualan_detail (id_transaksi_penjualan,kode_barang,qty,harga_barang)
+                        VALUES ('".$kodelama."','".$items['id']."','".$items['qty']."','".$items['price']."')";
+                  
+                   $query = $this->db->query($sql);
+                }  
+
+            
+        }
+
    	public function deletePenjualan($kode)
       {
           $sql ="INSERT INTO penjualan_hapus SELECT *,now() as tgl_hapus FROM penjualan where id_transaksi_penjualan='$kode'";
           $query = $this->db->query($sql);
           $sql = "delete from penjualan where id_transaksi_penjualan='$kode'";
-  				$query = $this->db->query($sql);
-		}
+  		  $query = $this->db->query($sql);
+		  $sql ="INSERT INTO penjualan_detail_hapus SELECT *,now() as tgl_hapus FROM penjualan_detail where id_transaksi_penjualan='$kode'";
+          $query = $this->db->query($sql);
+          $sql = "delete from penjualan_detail where id_transaksi_penjualan='$kode'";
+          $query = $this->db->query($sql);
+        }
 
    	public function getPenjualanAll()
         {
-                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,
-                p.kode_barang,concat(b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as nama_barang, p.qty,p.harga_barang,p.jumlah_bayar,p.status_transaksi,p.keterangan,
-                DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
-                DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
-                c.nama_customer,p.status_transaksi
-                FROM penjualan p
-                LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
-                LEFT JOIN customer c ON c.kode_customer=p.kode_customer
-                LEFT JOIN barang b ON b.kode_barang=p.kode_barang ORDER BY tgl_input desc";
+                $sql = "SELECT id_transaksi_penjualan,tgl_input,tgl_transaksi,p.kode_petugas,a.nama_petugas,p.jumlah_bayar,p.status_transaksi,p.keterangan,
+DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
+DATE_FORMAT(p.tgl_transaksi,_utf8'%d %b %y') AS tgl_transaksi_tampil,
+c.nama_customer,
+(SELECT GROUP_CONCAT(CONCAT(pd.kode_barang,' - ',b.nama_barang,' - ',IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,''),' - ',pd.qty,' - ',pd.harga_barang,'<br>')) FROM penjualan_detail pd 
+LEFT JOIN barang b ON pd.kode_barang=b.kode_barang
+WHERE pd.id_transaksi_penjualan=p.id_transaksi_penjualan) AS nama_barang
+FROM penjualan p
+LEFT JOIN akun a ON p.kode_petugas=a.kode_petugas 
+LEFT JOIN customer c ON c.kode_customer=p.kode_customer ORDER BY tgl_input desc";
                 
                 $query = $this->db->query($sql);
 
@@ -105,6 +159,33 @@ LEFT JOIN barang b ON b.kode_barang=p.kode_barang
 
                 return $query->result();
         }
+
+    public function getPenjualanByKodeCart($id_transaksi_penjualan)
+            {
+                    $sql = "SELECT *
+                            FROM penjualan p
+                            where id_transaksi_penjualan='$id_transaksi_penjualan'";
+                    
+                    $query = $this->db->query($sql);
+
+                    return $query->result();
+            }
+
+    public function getPenjualanDetailByKodeCart($id_transaksi_penjualan)
+                {
+                         $sql = "SELECT
+                            a.kode_barang as id ,
+                            concat(REPLACE(b.nama_barang,'+','Plus'),' - ', IFNULL(b.ukuran_barang,''),' - ',IFNULL(b.bahan_barang,'')) as name, 
+                            a.harga_barang as price, 
+                            a.qty as qty
+                            FROM penjualan_detail a 
+                            left join barang b on a.kode_barang=b.kode_barang
+                            where id_transaksi_penjualan='$id_transaksi_penjualan'";
+                        
+                        $query = $this->db->query($sql);
+
+                        return $query->result();
+                }
 
 
         private function _get_datatables_query()

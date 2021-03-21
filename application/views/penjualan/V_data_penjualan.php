@@ -15,8 +15,6 @@
                             <th>Petugas</th>
                             <th>Customer</th>
                             <th>Barang</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
                             <th>Jumlah Bayar</th>
                             <th>Status Transaksi</th>
                             <th>Keterangan</th>
