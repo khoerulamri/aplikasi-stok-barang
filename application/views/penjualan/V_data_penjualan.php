@@ -14,7 +14,7 @@
                             <th>Tgl Transaksi</th>
                             <th>Petugas</th>
                             <th>Customer</th>
-                            <th>Barang</th>
+                            <th>Barang - Qty - Harga</th>
                             <th>Jumlah Bayar</th>
                             <th>Status Transaksi</th>
                             <th>Keterangan</th>
