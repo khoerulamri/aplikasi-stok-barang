@@ -2,7 +2,7 @@
 class M_produksi extends CI_Model {
 	
 	var $table = "(SELECT id_transaksi_produksi,tgl_input,tgl_produksi,p.kode_petugas,a.nama_petugas, nama_sumber_transaksi,
-p.kode_barang,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barang, p.qty,p.keterangan,
+p.kode_barang,concat(b.nama_barang,' - ',b.ukuran_barang,' - ',b.bahan_barang) as nama_barang, format(p.qty,0) as qty,p.keterangan,
 DATE_FORMAT(p.tgl_input,_utf8'%d %b %y') AS tgl_input_tampil,
 DATE_FORMAT(p.tgl_produksi,_utf8'%d %b %y') AS tgl_produksi_tampil
  FROM produksi p

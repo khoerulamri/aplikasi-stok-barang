@@ -16,7 +16,7 @@ class M_gudang extends CI_Model {
               ,g.tgl_input
               ,g.tgl_serahkan
               ,g.kode_pelipat
-              ,g.qty
+              ,format(g.qty,0) as qty
               ,g.keterangan
                FROM  gudang g
               LEFT JOIN produksi p ON g.id_transaksi_produksi=p.id_transaksi_produksi
