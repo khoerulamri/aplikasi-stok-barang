@@ -639,6 +639,7 @@
             var $class_barang = $('.class_barang');
             var product_name  = $class_barang.select2('data')[0]['text']    ;
             product_name  = product_name.replace(/[+]/g,'-Plus');
+            product_name  = product_name.replace(/[,]/g,'.');
             var product_price = $('#harga').val();
             var quantity      = $('#jumlah').val();
             $.ajax({
