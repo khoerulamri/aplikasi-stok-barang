@@ -107,3 +107,7 @@ $route['penjualan/(:any)/(:any)'] = 'C_penjualan/$1/$2';
 $route['laporan'] = 'C_laporan_stok_barang/index';
 $route['laporan/(:any)'] = 'C_laporan_stok_barang/$1';
 $route['laporan/(:any)/(:any)'] = 'C_laporan_stok_barang/$1/$2';
+
+$route['hapusdata'] = 'C_hapusdata/index';
+$route['hapusdata/(:any)'] = 'C_hapusdata/$1';
+$route['hapusdata/(:any)/(:any)'] = 'C_hapusdata/$1/$2';

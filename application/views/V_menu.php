@@ -116,7 +116,7 @@
         if("administrator"==$kode_hak_akses)
         {
         ?>
-        <li class=" <?php if(($menu_active=='petugas')||($menu_active=='barang')||($menu_active=='pelipat')||($menu_active=='customer')||($menu_active=='sumber_transaksi')||($menu_active=='perusahaan'))
+        <li class=" <?php if(($menu_active=='petugas')||($menu_active=='barang')||($menu_active=='pelipat')||($menu_active=='customer')||($menu_active=='sumber_transaksi')||($menu_active=='perusahaan')||($menu_active=='hapusdata'))
                                     {
                                         echo 'active';
                                     }?> treeview">
@@ -151,6 +151,10 @@
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('perusahaan');?>"><i class="fa fa-home"></i>Perusahaan</a></li>
+            <li <?php if($menu_active=='hapusdata')
+                                    {
+                                        echo 'class="active"';
+                                    }?>><a href="<?php echo base_url('hapusdata');?>"><i class="fa fa-file-text"></i>Hapus Data Transaksi</a></li>
           </ul>
         </li>
         <?php 

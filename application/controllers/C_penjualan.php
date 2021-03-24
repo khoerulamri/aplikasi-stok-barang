@@ -118,9 +118,13 @@ class C_penjualan extends CI_Controller {
 				$this->cart->destroy();
 
 				foreach ($detailpenjualan as $gdp) {
+					
+				 	$nama=str_replace(",",".",$gdp->name);
+				    $nama=str_replace("+","-Plus",$nama);
+				    
 				 		$belanjaan = array(
 							'id' => $gdp->id, 
-							'name' => $gdp->name, 
+							'name' => $nama, 
 							'price' => $gdp->price, 
 							'qty' => $gdp->qty, 
 						);
