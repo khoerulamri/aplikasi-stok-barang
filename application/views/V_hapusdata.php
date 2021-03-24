@@ -36,13 +36,16 @@
                             
 
                         </div>
-                        <div class="col-lg-12">
-                            <div class="checkbox">
+                        <div class="col-lg-8">
+                            <div class="checkbox pull-right">
                               <label>
                                 <input type="checkbox" required> Saya Yakin akan Menghapus data ini.
                               </label>
                           </div>
-                          <button type="submit" class="btn btn-danger pull-right">Hapus</button></div>
+                        </div>
+                         <div class="col-lg-4">
+                          <button type="submit" class="btn btn-danger pull-right">Hapus</button>
+                      </div>
                     </form>
                 </div>
             </div>
