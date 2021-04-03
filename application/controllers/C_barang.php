@@ -110,6 +110,7 @@ class C_barang extends CI_Controller {
 			$bahan_barang = $this->input->post('bahan_barang');
 
 			$kode_perusahaan = $this->input->post('kode_perusahaan');
+			$minimum_stok = $this->input->post('minimum_stok');
 
 			//check kode baru sudah digunakan?
 			if ($kode_barang!=$kode_barangbaru)
@@ -132,7 +133,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode barang unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan);
+				$this->M_barang->updateBarang($kode_barang,$kode_barangbaru,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan,$minimum_stok);
 				$data['kode_barang']=$kode_barangbaru;
 				$this->load->view('barang/V_barang_ubah',$data);
 			}
@@ -158,6 +159,7 @@ class C_barang extends CI_Controller {
 			$bahan_barang = $this->input->post('bahan_barang');
 
 			$kode_perusahaan = $this->input->post('kode_perusahaan');
+			$minimum_stok = $this->input->post('minimum_stok');
 
 			$hasilcheck = $this->M_barang->checkBarang($kode_barang);
 
@@ -171,7 +173,7 @@ class C_barang extends CI_Controller {
 			{
 				//kode pj unik				
 				$kode_barang=urldecode($kode_barang);
-				$this->M_barang->saveBarang($kode_barang,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan);
+				$this->M_barang->saveBarang($kode_barang,$nama_barang,$ukuran_barang,$bahan_barang,$kode_perusahaan,$minimum_stok);
 				$data['kode_barang']=$kode_barang;
 				$this->load->view('barang/V_barang_simpan',$data);
 			}
@@ -225,6 +227,7 @@ class C_barang extends CI_Controller {
             $row[] = $field->ukuran_barang;
             $row[] = $field->bahan_barang;
             $row[] = $field->nama_perusahaan;
+            $row[] = $field->minimum_stok;
             $data[] = $row;
         }
  

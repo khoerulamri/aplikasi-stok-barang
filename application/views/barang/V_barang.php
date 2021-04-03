@@ -17,6 +17,7 @@
                             $ukuran_barang=$c->ukuran_barang;
                             $bahan_barang=$c->bahan_barang;
                             $kode_perusahaan=$c->kode_perusahaan;
+                            $minimum_stok=$c->minimum_stok;
                         }
                         echo base_url('barang/simpanubah/'.urlencode($kode_barang)); };?>" method="post">
                         <div class="form-group">*) Wajib Terisi</div>
@@ -56,6 +57,11 @@
                                     }
                                     ?> 
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Stok *</label>
+                            <input required class="form-control" placeholder="Masukan Jumlah Minimum Stok" name="minimum_stok"
+                            <?php if($status=='ubah'){echo "value=\"".$minimum_stok."\"" ;} else {echo "value=\"0\""; } ?>>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('barang');?>" class="btn btn-info pull-right">Kembali</a></div>
                         <div class="col-lg-2"><button type="submit" class="btn btn-success pull-right">Simpan</button></div>

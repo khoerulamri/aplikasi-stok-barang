@@ -15,6 +15,7 @@
                             <th>Ukuran Barang</th>
                             <th>Bahan Barang</th>
                             <th>Perusahaan</th>
+                            <th>Minimum Stok</th>
                         </tr>
                     </thead>
                     <tbody>

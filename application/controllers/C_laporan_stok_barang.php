@@ -59,13 +59,31 @@ class C_laporan_stok_barang extends CI_Controller {
         foreach ($list as $field) {
             $no++;
             $row = array();
-            $row[] = $no;
-            $row[] = $field->nama_perusahaan;
-            $row[] = $field->nama_barang;
-            $row[] = $field->qty_produksi;
-            $row[] = $field->qty_produksi_belum_kembali;
-            $row[] = $field->qty_gudang_saat_ini;
-            $row[] = $field->qty_penjualan;
+
+            if ($field->minimum_stok==$field->qty_gudang_saat_ini)
+            {
+            	$row[] = "<p style='color:red'>$no *</p>";
+	            $row[] = "<p style='color:red'>$field->nama_perusahaan</p>";
+	            $row[] = "<p style='color:red'>$field->nama_barang</p>";
+	            $row[] = "<p style='color:red'>$field->minimum_stok</p>";
+	            $row[] = "<p style='color:red'>$field->qty_produksi</p>";
+	            $row[] = "<p style='color:red'>$field->qty_produksi_belum_kembali</p>";
+	            $row[] = "<p style='color:red'>$field->qty_gudang_saat_ini</p>";
+	            $row[] = "<p style='color:red'>$field->qty_penjualan</p>";
+            }
+            else
+            {
+	            $row[] = $no;
+	            $row[] = $field->nama_perusahaan;
+	            $row[] = $field->nama_barang;
+	            $row[] = $field->minimum_stok;
+	            $row[] = $field->qty_produksi;
+	            $row[] = $field->qty_produksi_belum_kembali;
+	            $row[] = $field->qty_gudang_saat_ini;
+	            $row[] = $field->qty_penjualan;	
+            }
+
+            
             $data[] = $row;
         }
  
