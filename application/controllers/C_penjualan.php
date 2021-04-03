@@ -383,6 +383,9 @@ class C_penjualan extends CI_Controller {
 
 	function get_data_penjualan()
     {
+    	$var = $this->session->userdata;
+		$kode_petugas=$var['kode_petugas'];
+
         $list = $this->M_penjualan->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -390,9 +393,17 @@ class C_penjualan extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = '<a href="'.base_url('penjualan/ubah_cart/').urlencode($field->id_transaksi_penjualan).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+            if ($kode_petugas==$field->kode_petugas)
+            {
+            	$row[] = '<a href="'.base_url('penjualan/ubah_cart/').urlencode($field->id_transaksi_penjualan).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('penjualan/hapus/').urlencode($field->id_transaksi_penjualan).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
+            }
+            else
+            {
+            	$row[] ='';	
+            }
+
             $row[] = $field->tgl_input;
             $row[] = $field->tgl_transaksi_tampil;
             $row[] = $field->nama_petugas;

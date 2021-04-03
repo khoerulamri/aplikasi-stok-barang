@@ -42,12 +42,13 @@
                         <div class="form-group">
                             <label>Hak Akses*</label>
                             <select id="kode_hak_akses" class="form-control" name="kode_hak_akses" required>
-                             <option value=''>-- Pilih Hak Akses --</option>";
+                             <option value=''>-- Pilih Hak Akses --</option>
                              <option value='administrator' 
-                             <?php if('administrator'==$kode_hak_akses) echo 'selected';?>>Administrator</option>";
-                             <option value='produksi' <?php if('produksi'==$kode_hak_akses) echo 'selected';?>>Produksi</option>";
-                             <option value='gudang' <?php if('gudang'==$kode_hak_akses) echo 'selected';?>>Gudang</option>";
-                             <option value='penjualan' <?php if('penjualan'==$kode_hak_akses) echo 'selected';?>>Penjualan</option>";
+                             <?php if('administrator'==$kode_hak_akses) echo 'selected';?>>Administrator</option>
+                             <option value='produksi' <?php if('produksi'==$kode_hak_akses) echo 'selected';?>>Produksi</option>
+                             <option value='gudang' <?php if('gudang'==$kode_hak_akses) echo 'selected';?>>Gudang</option>
+                             <option value='penjualan' <?php if('penjualan'==$kode_hak_akses) echo 'selected';?>>Penjualan</option>
+                             <option value='gudangpenjualan' <?php if('gudangpenjualan'==$kode_hak_akses) echo 'selected';?>>Gudang+Pejualan</option>
                             </select>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('petugas');?>" class="btn btn-info pull-right">Kembali</a></div>

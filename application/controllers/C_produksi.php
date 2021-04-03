@@ -188,6 +188,9 @@ class C_produksi extends CI_Controller {
 
 	function get_data_produksi()
     {
+    	$var = $this->session->userdata;
+		$kode_petugas=$var['kode_petugas'];
+		
         $list = $this->M_produksi->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -195,9 +198,18 @@ class C_produksi extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
+
+            if ($kode_petugas==$field->kode_petugas)
+            {
             $row[] = '<a href="'.base_url('produksi/ubah/').urlencode($field->id_transaksi_produksi).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('produksi/hapus/').urlencode($field->id_transaksi_produksi).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
+            }
+            else
+            {
+            	$row[] ='';	
+            }
+
             $row[] = $field->tgl_input;
             $row[] = $field->tgl_produksi;
             $row[] = $field->nama_petugas;

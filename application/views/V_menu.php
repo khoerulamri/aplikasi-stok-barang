@@ -54,7 +54,7 @@
         $kode_hak_akses = $this->session->userdata('kode_hak_akses');
          ?>
 
-        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='gudang_produksi')||($menu_active=='penjualan'))
+        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='gudang_produksi')||($menu_active=='penjualan')||($menu_active=='gudangpenjualan'))
                                     {
                                         echo 'active';
                                     }?> treeview" >
@@ -73,14 +73,14 @@
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('produksi');?>"><i class="fa fa-file-text-o"></i>Data Produksi</a></li>
             <?php } 
-            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
             { ?>
             <li <?php if($menu_active=='gudang')
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('gudang');?>"><i class="fa fa-file-text"></i>Data Gudang</a></li>
             <?php } 
-            if ('administrator'==$kode_hak_akses || 'penjualan'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'penjualan'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
             { ?>
            <li <?php if($menu_active=='penjualan')
                                     {
@@ -91,7 +91,7 @@
         </li>
 
         <?php
-            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'penjualan'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
             { ?>
         <li class="<?php if(($menu_active=='laporan_stok_barang'))
                                     {

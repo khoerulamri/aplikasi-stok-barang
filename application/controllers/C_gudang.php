@@ -251,6 +251,8 @@ class C_gudang extends CI_Controller {
 
 	function get_data_gudang()
     {
+    	$var = $this->session->userdata;
+		$kode_petugas=$var['kode_petugas'];
         $list = $this->M_gudang->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -258,9 +260,16 @@ class C_gudang extends CI_Controller {
             $no++;
             $row = array();
             $row[] = $no;
+            if ($kode_petugas==$field->kode_petugas)
+            {
             $row[] = '<a href="'.base_url('gudang/ubah/').urlencode($field->id_transaksi_gudang).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('gudang/hapus/').urlencode($field->id_transaksi_gudang).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
             		  ';
+            }else
+            {
+            	$row[] ='';	
+            }
+
             $row[] = $field->tgl_input;
             $row[] = $field->tgl_serahkan;
             $row[] = $field->nama_pelipat;
