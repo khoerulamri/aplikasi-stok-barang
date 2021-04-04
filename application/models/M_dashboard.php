@@ -137,10 +137,11 @@ FROM penjualan WHERE YEAR(tgl_transaksi)=YEAR(CURRENT_DATE);";
                         IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
                         (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
                         ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
-                        IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan
+                        IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,
+                        p.minimum_stok
                         FROM barang p
                         LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan
-                ) tabel WHERE qty_gudang_saat_ini=0";
+                ) tabel WHERE qty_gudang_saat_ini<=minimum_stok";
         
         $query = $this->db->query($sql);
 

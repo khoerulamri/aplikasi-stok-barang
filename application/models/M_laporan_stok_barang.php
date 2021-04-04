@@ -1,25 +1,32 @@
 <?php 
 class M_laporan_stok_barang extends CI_Model {
 	
-	var $table = "(SELECT 
-        p.kode_perusahaan,
-        pe.nama_perusahaan,
-        p.kode_barang,
-        concat(p.nama_barang,' - ',IFNULL(p.ukuran_barang,''),' - ',IFNULL(p.bahan_barang,'')) as nama_barang,
-        IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0) AS qty_produksi,
-        IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0)-
-        IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
-        (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
-        ),0) AS qty_produksi_belum_kembali,
-        IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
-        (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
-        ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
-        IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,
-        p.minimum_stok
-        FROM barang p
-        LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan) tabel"; //nama tabel dari database
-    var $column_order = array(null,null,  'nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan'); //field yang ada di table user
-    var $column_search = array('nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan');  //field yang diizin untuk pencarian 
+	var $table = "(select *, 
+                CASE
+            WHEN qty_gudang_saat_ini<=minimum_stok THEN 'Stok Kurang'
+            ELSE 'Stok Aman'
+        END as status_stok
+        from 
+            (SELECT 
+            p.kode_perusahaan,
+            pe.nama_perusahaan,
+            p.kode_barang,
+            concat(p.nama_barang,' - ',IFNULL(p.ukuran_barang,''),' - ',IFNULL(p.bahan_barang,'')) as nama_barang,
+            IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0) AS qty_produksi,
+            IFNULL((SELECT SUM(qty) FROM produksi xx WHERE xx.kode_barang=p.kode_barang),0)-
+            IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
+            (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
+            ),0) AS qty_produksi_belum_kembali,
+            IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
+            (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
+            ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
+            IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,
+            p.minimum_stok
+            FROM barang p
+            LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan) tabel
+        ) tabel"; //nama tabel dari database
+    var $column_order = array(null,null,  'nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan','status_stok'); //field yang ada di table user
+    var $column_search = array('nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan','status_stok');  //field yang diizin untuk pencarian 
     var $order = array('nama_perusahaan' => 'asc'); // default order 
 
 	public function __construct()

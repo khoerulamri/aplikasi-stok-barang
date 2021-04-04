@@ -62,7 +62,7 @@ class C_laporan_stok_barang extends CI_Controller {
 
             if ($field->minimum_stok==$field->qty_gudang_saat_ini)
             {
-            	$row[] = "<p style='color:red'>$no *</p>";
+            	$row[] = "<p style='color:red'>$no</p>";
 	            $row[] = "<p style='color:red'>$field->nama_perusahaan</p>";
 	            $row[] = "<p style='color:red'>$field->nama_barang</p>";
 	            $row[] = "<p style='color:red'>$field->minimum_stok</p>";
@@ -70,6 +70,7 @@ class C_laporan_stok_barang extends CI_Controller {
 	            $row[] = "<p style='color:red'>$field->qty_produksi_belum_kembali</p>";
 	            $row[] = "<p style='color:red'>$field->qty_gudang_saat_ini</p>";
 	            $row[] = "<p style='color:red'>$field->qty_penjualan</p>";
+	            $row[] = "<p style='color:red'>$field->status_stok</p>";
             }
             else
             {
@@ -81,6 +82,7 @@ class C_laporan_stok_barang extends CI_Controller {
 	            $row[] = $field->qty_produksi_belum_kembali;
 	            $row[] = $field->qty_gudang_saat_ini;
 	            $row[] = $field->qty_penjualan;	
+	            $row[] = $field->status_stok;	
             }
 
             

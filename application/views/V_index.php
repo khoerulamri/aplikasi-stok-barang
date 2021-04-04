@@ -6,7 +6,7 @@
       <?php
         $kode_hak_akses = $this->session->userdata('kode_hak_akses');
 
-        if ('administrator'==$kode_hak_akses || 'penjualan'==$kode_hak_akses)
+        if ('administrator'==$kode_hak_akses || 'penjualan'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
             {
          ?>
       <div class="col-md-12">
@@ -135,7 +135,7 @@
         </div>
 
       <?php }
-      if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses)
+      if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
             {
       ?>
 
@@ -186,6 +186,29 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-4">
+                  <a href="./laporan">
+                  <div class="info-box bg-red">
+                      <span class="info-box-icon"><i class="fa fa-fw fa-dropbox"></i></span>
+                      <?php 
+                        foreach($barangStokKosong as $a) {
+                          $barang=$a->barang;
+                        }
+                    ?>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Barang Stok Kurang/Kosong</span>
+                        <span class="info-box-number"><?php echo $barang;?></span>
+
+                        <div class="progress">
+                          <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                        <span class="progress-description">
+                              Barang dg stok tidak tersedia
+                            </span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    </div>
+                  </a>
+
                  <div class="info-box bg-green">
                     <span class="info-box-icon"><i class="fa fa-fw fa-tags"></i></span>
                     <?php 
@@ -227,27 +250,6 @@
                     </div>
                     <!-- /.info-box-content -->
                   </div>
-
-                 <div class="info-box bg-red">
-                      <span class="info-box-icon"><i class="fa fa-fw fa-dropbox"></i></span>
-                      <?php 
-                        foreach($barangStokKosong as $a) {
-                          $barang=$a->barang;
-                        }
-                    ?>
-                      <div class="info-box-content">
-                        <span class="info-box-text">Barang Stok Kosong</span>
-                        <span class="info-box-number"><?php echo $barang;?></span>
-
-                        <div class="progress">
-                          <div class="progress-bar" style="width: 100%"></div>
-                        </div>
-                        <span class="progress-description">
-                              Barang dg stok tidak tersedia
-                            </span>
-                      </div>
-                      <!-- /.info-box-content -->
-                    </div>
                 
                 </div>
                 <!-- /.col -->
