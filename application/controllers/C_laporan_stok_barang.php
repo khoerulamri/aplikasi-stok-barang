@@ -60,7 +60,7 @@ class C_laporan_stok_barang extends CI_Controller {
             $no++;
             $row = array();
 
-            if ($field->minimum_stok==$field->qty_gudang_saat_ini)
+            if ($field->minimum_stok>=$field->qty_gudang_saat_ini)
             {
             	$row[] = "<p style='color:red'>$no</p>";
 	            $row[] = "<p style='color:red'>$field->nama_perusahaan</p>";
