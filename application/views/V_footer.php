@@ -380,10 +380,6 @@
                 "targets": [ 0 ], 
                 "orderable": false, 
             },
-            { 
-                "targets": [ 1 ], 
-                "orderable": false, 
-            }
             ],
             "dom": 'lBfrtip',
             "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',

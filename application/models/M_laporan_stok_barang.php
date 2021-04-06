@@ -25,9 +25,9 @@ class M_laporan_stok_barang extends CI_Model {
             FROM barang p
             LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan) tabel
         ) tabel"; //nama tabel dari database
-    var $column_order = array(null,null,  'nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan','status_stok'); //field yang ada di table user
+    var $column_order = array(null, 'nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan','status_stok'); //field yang ada di table user
     var $column_search = array('nama_perusahaan','nama_barang','minimum_stok','qty_produksi','qty_produksi_belum_kembali','qty_gudang_saat_ini','qty_penjualan','status_stok');  //field yang diizin untuk pencarian 
-    var $order = array('nama_perusahaan' => 'asc'); // default order 
+    var $order = array('nama_perusahaan' => 'asc','nama_barang' => 'asc'); // default order 
 
 	public function __construct()
         {

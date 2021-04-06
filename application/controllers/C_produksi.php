@@ -190,6 +190,7 @@ class C_produksi extends CI_Controller {
     {
     	$var = $this->session->userdata;
 		$kode_petugas=$var['kode_petugas'];
+		$kode_hak_akses=$var['kode_hak_akses'];
 		
         $list = $this->M_produksi->get_datatables();
         $data = array();
@@ -199,7 +200,7 @@ class C_produksi extends CI_Controller {
             $row = array();
             $row[] = $no;
 
-            if ($kode_petugas==$field->kode_petugas)
+            if ($kode_petugas==$field->kode_petugas || 'administrator'==$kode_hak_akses )
             {
             $row[] = '<a href="'.base_url('produksi/ubah/').urlencode($field->id_transaksi_produksi).'" class="btn btn-info btn-sm"><i class="fa fa-pencil-square-o fa-fw"></i></a>
             		  <a href="'.base_url('produksi/hapus/').urlencode($field->id_transaksi_produksi).'" onclick="return confirm(\'Apakah Anda yakin untuk menghapus Data ini ?\')" class="btn btn-danger btn-sm"><i class="fa fa-trash-o fa-fw"></i></a>
