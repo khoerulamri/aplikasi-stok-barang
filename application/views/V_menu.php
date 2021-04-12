@@ -54,7 +54,7 @@
         $kode_hak_akses = $this->session->userdata('kode_hak_akses');
          ?>
 
-        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='gudang_produksi')||($menu_active=='penjualan')||($menu_active=='gudangpenjualan'))
+        <li class="<?php if(($menu_active=='produksi')||($menu_active=='gudang')||($menu_active=='gudang_produksi')||($menu_active=='penjualan')||($menu_active=='gudangpenjualan')||($menu_active=='produksigudang'))
                                     {
                                         echo 'active';
                                     }?> treeview" >
@@ -66,14 +66,14 @@
           </a>
           <ul class="treeview-menu">
             <?php
-            if ('administrator'==$kode_hak_akses || 'produksi'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'produksi'==$kode_hak_akses || 'produksigudang'==$kode_hak_akses)
             { ?>
             <li <?php if($menu_active=='produksi')
                                     {
                                         echo 'class="active"';
                                     }?>><a href="<?php echo base_url('produksi');?>"><i class="fa fa-file-text-o"></i>Data Produksi</a></li>
             <?php } 
-            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses || 'produksigudang'==$kode_hak_akses)
             { ?>
             <li <?php if($menu_active=='gudang')
                                     {
@@ -91,7 +91,7 @@
         </li>
 
         <?php
-            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'penjualan'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses)
+            if ('administrator'==$kode_hak_akses || 'gudang'==$kode_hak_akses || 'penjualan'==$kode_hak_akses || 'gudangpenjualan'==$kode_hak_akses || 'produksigudang'==$kode_hak_akses)
             { ?>
         <li class="<?php if(($menu_active=='laporan_stok_barang'))
                                     {

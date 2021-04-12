@@ -49,6 +49,7 @@
                              <option value='gudang' <?php if('gudang'==$kode_hak_akses) echo 'selected';?>>Gudang</option>
                              <option value='penjualan' <?php if('penjualan'==$kode_hak_akses) echo 'selected';?>>Penjualan</option>
                              <option value='gudangpenjualan' <?php if('gudangpenjualan'==$kode_hak_akses) echo 'selected';?>>Gudang+Pejualan</option>
+                             <option value='produksigudang' <?php if('produksigudang'==$kode_hak_akses) echo 'selected';?>>Produksi+Gudang</option>
                             </select>
                         </div>
                         <div class="col-lg-10"><a href="<?php echo base_url('petugas');?>" class="btn btn-info pull-right">Kembali</a></div>
