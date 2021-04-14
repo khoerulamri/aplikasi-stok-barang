@@ -19,8 +19,8 @@ class M_laporan_stok_barang extends CI_Model {
             ),0) AS qty_produksi_belum_kembali,
             IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
             (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
-            ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
-            IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,
+            ),0)-IFNULL((SELECT SUM(qty) FROM penjualan_detail pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
+            IFNULL((SELECT SUM(qty) FROM penjualan_detail pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,
             p.minimum_stok
             FROM barang p
             LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan) tabel
@@ -50,8 +50,8 @@ class M_laporan_stok_barang extends CI_Model {
                         ),0) AS qty_produksi_belum_kembali,
                         IFNULL((SELECT SUM(qty) FROM gudang g WHERE g.id_transaksi_produksi IN 
                         (SELECT DISTINCT id_transaksi_produksi FROM produksi xx WHERE xx.kode_barang=p.kode_barang)
-                        ),0)-IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
-                        IFNULL((SELECT SUM(qty) FROM penjualan pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,p.minimum_stok
+                        ),0)-IFNULL((SELECT SUM(qty) FROM penjualan_detail pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_gudang_saat_ini,
+                        IFNULL((SELECT SUM(qty) FROM penjualan_detail pj WHERE pj.kode_barang=p.kode_barang),0) AS qty_penjualan,p.minimum_stok
                         FROM barang p
                         LEFT JOIN perusahaan pe ON pe.kode_perusahaan=p.kode_perusahaan";
 				
