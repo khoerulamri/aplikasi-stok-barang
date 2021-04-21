@@ -58,9 +58,10 @@
     <script src="<?php echo base_url('assets/datatables/js/jquery.dataTables.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/dataTables.bootstrap.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/dataTables.buttons.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/datatables-plugins/pdfmake.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.flash.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/datatables-plugins/jszip.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/vfs_fonts.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/datatables-plugins/jszip.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.html5.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.print.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/datatables-plugins/buttons.colVis.min.js'); ?>"></script>
@@ -366,7 +367,7 @@
 
        
          table = $('#dataLaporanStokBarang').DataTable({ 
- 
+            "deferRender": true,
             "processing": true, 
             "serverSide": true, 
             "order": [], 
@@ -385,6 +386,17 @@
             "buttons": ['copy', 'print', 'csv', 'excel', 'pdf', 'colvis',
             ],
             "scrollX": true,
+            "initComplete": function() {
+            var $searchInput = $('div.dataTables_filter input');
+
+            $searchInput.unbind();
+
+            $searchInput.bind('keyup', function(e) {
+                if(this.value.length > 6 || e.keyCode == 13) {
+                    table.search( this.value ).draw();
+                }
+            });
+        }
         });
 
        
