@@ -11,6 +11,7 @@
 							<th>No</th>
 							<th>Action</th>
 							<th>Tgl Input</th>
+                            <th>Petugas</th>
                             <th>Tgl Menyerahkan</th>
                             <th>Pelipat</th>
                             <th>Barang</th>

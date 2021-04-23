@@ -25,8 +25,8 @@ class M_gudang extends CI_Model {
               LEFT JOIN akun a ON a.kode_petugas=g.kode_petugas
               ) tabel"; //nama tabel dari database
 
-    var $column_order = array(null,null,'tgl_input_tampil','tgl_serahkan_tampil','nama_pelipat','nama_barang','qty','keterangan'); //field yang ada di table 
-    var $column_search = array('tgl_input_tampil','tgl_serahkan_tampil','nama_pelipat','nama_barang','qty','keterangan');  //field yang diizin untuk pencarian 
+    var $column_order = array(null,null,'tgl_input_tampil','nama_petugas','tgl_serahkan_tampil','nama_pelipat','nama_barang','qty','keterangan'); //field yang ada di table 
+    var $column_search = array('tgl_input_tampil','nama_petugas','tgl_serahkan_tampil','nama_pelipat','nama_barang','qty','keterangan');  //field yang diizin untuk pencarian 
     var $order = array('tgl_input' => 'desc'); // default order 
 
 	public function __construct()

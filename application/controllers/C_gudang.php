@@ -272,6 +272,7 @@ class C_gudang extends CI_Controller {
             }
 
             $row[] = $field->tgl_input;
+            $row[] = $field->nama_petugas;
             $row[] = $field->tgl_serahkan;
             $row[] = $field->nama_pelipat;
             $row[] = $field->nama_barang;
